@@ -3,8 +3,7 @@ import "./LeftNavBar.css";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Avatar, Grid } from "@mui/material";
-import LogoutIcon from '@mui/icons-material/Logout';
-
+import LogoutButton from "./LogoutButton";
 
 class LeftNavBar extends React.Component{
 
@@ -19,13 +18,13 @@ class LeftNavBar extends React.Component{
 
                     
                 </Stack>
-                <div class = 'position-absolute bottom-0 start-0'>
+                <div class = 'position-absolute bottom-0 start-0 m-4'>
                     <Grid container>
-                        <Grid item>
-                            <Avatar></Avatar>
+                        <Grid item class ="ms-3">
+                            <Avatar sx = {{width: 56, height: 56}}></Avatar>
                         </Grid>
-                        <Grid item>
-                            <LogoutIcon />
+                        <Grid item class ="ms-3 mt-2">
+                            <LogoutButton />
                         </Grid>
                     </Grid>
                 </div>
