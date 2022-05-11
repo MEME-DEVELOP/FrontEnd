@@ -2,7 +2,20 @@ import React from "react";
 import "./Home.css";
 import LeftNavBar from "../components/LeftNavBar";
 import Tablas from "../components/Tablas";
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    height: '100%'
+}));
 
 
 
@@ -12,20 +25,21 @@ class Home extends React.Component{
 
     render(){
         return(
-        <div>
-            <div class = 'row gx-5 ms-1 me-2 mt-4 mb-2' >
-                <div class = 'col-2'>   
+        <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >
+            <Grid container spacing={2} className = 'hola'>
+              <Grid item md={2}>
+                
                     <LeftNavBar />
-                </div>
-                <div class = 'col-10'>
-                    <div class = 'shadow rounded-3 p-3'>
-
-                        <Tablas />
-
-                    </div>
-                </div>
-            </div>
-        </div>
+                
+              </Grid>
+              <Grid item md={10} >
+                <Item>
+                    <h1>HOLA XD</h1>
+                    <Tablas />
+                </Item>
+              </Grid>
+            </Grid>
+        </Box>
         )
     };
 }export default Home;
