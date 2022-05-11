@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-
+import APIgetInventario from "../API/APIgetInventarios";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -36,8 +36,7 @@ class Home extends React.Component{
               </Grid>
               <Grid item md={10} >
                 <Item>
-                    <h1>HOLA XD</h1>
-                    <Tablas />
+                    <APIgetInventario></APIgetInventario>
                 </Item>
               </Grid>
             </Grid>
