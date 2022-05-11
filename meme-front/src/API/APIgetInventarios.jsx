@@ -11,7 +11,7 @@ class APIgetInventario extends React.Component{
     }
     componentDidMount() {
         axios.get('http://localhost:8000/inventario/?format=json').then(result=>{
-            console.log(result);
+            console.log(result.data);
             this.setState({inventarios : result.data});
         }).catch(console.log);
     }
