@@ -3,14 +3,16 @@ import "./LeftNavBar.css";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Avatar, Grid } from "@mui/material";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutButton from "./LogoutButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
-class LeftNavBar extends React.Component{
+const LeftNavBar = () =>{
 
-
-    render(){
+    const { user, isAuthenticated } = useAuth0();
+    
         return(
+            isAuthenticated && (
             <div class = "h-100 p-3 bg-primary shadow-lg rounded-3 position-relative">
                 <Stack spacing={2}>
                     <Button variant = 'contained' >Inventario</Button>
@@ -19,18 +21,22 @@ class LeftNavBar extends React.Component{
 
                     
                 </Stack>
-                <div class = 'position-absolute bottom-0 start-0'>
+                <div class = 'position-absolute bottom-0 start-0 m-4'>
                     <Grid container>
-                        <Grid item>
-                            <Avatar></Avatar>
+                        <h6 class = "text-white">{user.name}</h6>
+                        <Grid item class ="ms-3">
+                            <Avatar sx = {{width: 56, height: 56}}
+                             src = {user.picture} 
+                             ></Avatar>
                         </Grid>
-                        <Grid item>
-                            <LogoutIcon />
+                        <Grid item class ="ms-3 mt-2">
+                            <LogoutButton />
                         </Grid>
                     </Grid>
                 </div>
             </div>
-
-        )
-    };
-}export default LeftNavBar;
+            )
+        );
+    
+};
+export default LeftNavBar;
