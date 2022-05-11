@@ -23,6 +23,7 @@ const LeftNavBar = () =>{
                 </Stack>
                 <div class = 'position-absolute bottom-0 start-0 m-4'>
                     <Grid container>
+                        <h6 class = "text-white">{user.name}</h6>
                         <Grid item class ="ms-3">
                             <Avatar sx = {{width: 56, height: 56}}
                              src = {user.picture} 

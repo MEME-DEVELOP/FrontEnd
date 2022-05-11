@@ -4,7 +4,7 @@ import Home from './views/Home';
 import HomePrueba from './views/HomePrueba';
 import Loading from './components/Loading';
 import { useAuth0 } from "@auth0/auth0-react";
-import ProtectedRoute from './components/ProtectedRoute';
+//import ProtectedRoute from './components/ProtectedRoute';
 
 const App = ()  => {
 
