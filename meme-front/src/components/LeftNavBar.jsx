@@ -11,12 +11,15 @@ class LeftNavBar extends React.Component{
 
     render(){
         return(
-            <div class = " h-100 p-3 bg-primary shadow-lg rounded-3">
+            <div class = "h-100 p-3 bg-primary shadow-lg rounded-3 position-relative">
                 <Stack spacing={2}>
                     <Button variant = 'contained' >Inventario</Button>
                     <Button variant="contained" >Productos</Button>
                     <Button variant="contained" >Contained</Button>
 
+                    
+                </Stack>
+                <div class = 'position-absolute bottom-0 start-0'>
                     <Grid container>
                         <Grid item>
                             <Avatar></Avatar>
@@ -25,9 +28,7 @@ class LeftNavBar extends React.Component{
                             <LogoutIcon />
                         </Grid>
                     </Grid>
-                </Stack>
-                
-                
+                </div>
             </div>
 
         )
