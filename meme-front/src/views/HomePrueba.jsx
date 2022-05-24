@@ -5,8 +5,7 @@ import LoginButton from '../components/LoginButton';
 const HomePrueba = () => {
   
     return (
-        
-            
+         
         <LoginButton />
     );
   };

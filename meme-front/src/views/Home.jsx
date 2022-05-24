@@ -1,12 +1,12 @@
 import React from "react";
 import "./Home.css";
 import LeftNavBar from "../components/LeftNavBar";
-import Tablas from "../components/Tablas";
+
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import APIgetInventario from "../API/APIgetInventarios";
+
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -36,7 +36,7 @@ class Home extends React.Component{
               </Grid>
               <Grid item md={10} >
                 <Item>
-                    <APIgetInventario></APIgetInventario>
+                    
                 </Item>
               </Grid>
             </Grid>
