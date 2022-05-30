@@ -2,9 +2,20 @@ import axios from 'axios';
 
 
 
-function APIgetUsuarios(){
-    users = [];
-    axios.get('http://localhost:8000/UsuarioD/?format=json').then(result=>{
+export const APIgetUsuarios = async () => {
+    let users = [];
+    await axios.get('http://localhost:8000/UsuarioD/').then(result=>{
+            console.log(result.data);
+            users = result.data
+           
+    }).catch(console.log);
+    
+    return users;
+};
+
+function APIgetUserEmail(){
+    let users = [];
+    axios.get('http://localhost:8000/UsuarioD').then(result=>{
             console.log(result.data);
             users = result.data
     }).catch(console.log);
@@ -12,4 +23,4 @@ function APIgetUsuarios(){
     return users;
 };
 
-export {APIgetUsuarios};
+export {APIgetUserEmail};

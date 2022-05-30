@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import UserSettings from "./UserSettings";
 
 
 
@@ -22,9 +23,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 class Home extends React.Component{
-
-   
-
     render(){
         return(
         <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >
@@ -36,7 +34,7 @@ class Home extends React.Component{
               </Grid>
               <Grid item md={10} >
                 <Item>
-                    
+                    <UserSettings />
                 </Item>
               </Grid>
             </Grid>

@@ -13,14 +13,15 @@ const App = ()  => {
   if (isLoading) {
     return <Loading />;
   }
-  
-  return (
+  else{
+    return (
 
         <Routes>
           <Route path="/"  element = {<HomePrueba />}/>
           <Route  path="/Home"  element = {<Home />}/>
         </Routes>
-  );
+    );
+  }
 }
 
 export default App;

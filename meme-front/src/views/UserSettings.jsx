@@ -8,10 +8,9 @@ class UserSettings extends React.Component{
 
     }
     componentDidMount() {
-        x = APIgetUsuarios();
-
+        let x = APIgetUsuarios();
+        console.log("Este es un error " + x)
         this.setState({inventarios : x});
-
     }
 
 
@@ -19,7 +18,7 @@ class UserSettings extends React.Component{
 
         return (
         <p> 
-            {JSON.stringify(this.state.inventarios)} 
+            Hola
         </p>
         );
     }
