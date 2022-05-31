@@ -28,6 +28,21 @@ export const APIgetUserEmail = async(email) =>{
     return users;
 };
 
+
+export const APIgetIdByEmail = async(email) =>{
+    let idUser;
+    await axios.get('http://localhost:8000/UsuarioD/', {
+        params: {
+            correo: email
+        }
+    }).then(result=>{
+            idUser = result.data[0].idusuario
+            
+    }).catch(console.log);
+
+    return idUser;
+};
+
 export const getUserID = async() => {
     let data = await APIgetUsuarios();
     

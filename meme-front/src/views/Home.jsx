@@ -62,7 +62,7 @@ const Home = () => {
                   </Grid>
                   <Grid item md={10} >
                     <Item>
-                        <UserSettings />
+                        <p> HOla este es el home</p>
                     </Item>
                   </Grid>
                 </Grid>
