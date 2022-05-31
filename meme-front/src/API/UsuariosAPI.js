@@ -27,3 +27,10 @@ export const APIgetUserEmail = async(email) =>{
 
     return users;
 };
+
+export const getUserID = async() => {
+    let data = await APIgetUsuarios();
+    
+    return data.length + 1;
+
+}

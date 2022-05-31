@@ -1,4 +1,4 @@
-import React from "react";
+import React,  { useEffect, useState } from "react";
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -9,6 +9,9 @@ import Button from '@mui/material/Button';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import Link from '@mui/material/Link';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import {getUserID} from "../API/UsuariosAPI";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -19,12 +22,47 @@ const Item = styled(Paper)(({ theme }) => ({
     height: '100%',
 
 }));
-class RegisteringSite extends React.Component {
 
-    
+const RegisteringSite = () => {
+    const { user} = useAuth0();
 
-    
-    render(){
+    const [userId, setUserId] = useState(0);
+    const [datos, setDatos] = useState({
+        id: userId,
+        nombreUser: user.name,
+        documento: 0,
+        nombreEmpresa: "",
+        correo: user.email,
+        logo: ""
+    });
+
+    const idUser = async() =>{
+        let data = await getUserID();
+        setUserId(data);
+        
+    }
+
+    useEffect(() => {
+        idUser();
+    }, []);
+
+    const handleInputChange= (event) => {
+        setDatos({
+            ...datos,
+            [event.target.name] : event.target.value
+        })
+    }
+    const handleSubmit= (event) => {
+        if(datos.documento === "" ||  datos.nombreEmpresa === "" || datos.id === 0){
+            setDatos({...datos,
+                id: userId})
+            alert("PORFAVOR RELLENA TODOS LOS CAMPOS")
+        }else{
+            alert(JSON.stringify(datos))
+        }
+    } 
+
+
         return(
             <div class = "p-5">
                 <Item elevation = {24} sx = {{alignSelf:"center"}} >
@@ -36,24 +74,32 @@ class RegisteringSite extends React.Component {
                         <Stack spacing= {3} justifyContent="center" alignItems = "center"  sx = {{p:4 }}>
 
                             <TextField
-                            required
-                            id="outlined-required"
-                            label="ID"
-                            defaultValue="Hello World"
-                            variant="filled"
-                            sx = {{width: 500}}
-                            />
-                            <TextField
                             disabled
-                            id="outlined-disabled"
-                            label="Nombre de Usuario"
-                            defaultValue="Hello World"
+                            name="id"
+                            label="ID"
+                            value= {userId}
                             variant="filled"
+                            type="number"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                             sx = {{width: 500}}
+                            onChange = {handleInputChange}
                             />
 
                             <TextField
-                            id="outlined-number"
+                            disabled
+                            name="nombreUser"
+                            label="Nombre de Usuario"
+                            value={user.name}
+                            variant="filled"
+                            sx = {{width: 500}}
+                            onChange = {handleInputChange}
+                            />
+
+                            <TextField
+                            required
+                            name="documento"
                             label="Documento"
                             type="number"
                             InputLabelProps={{
@@ -61,37 +107,35 @@ class RegisteringSite extends React.Component {
                             }}
                             variant="filled"
                             sx = {{width: 500}}
+                            onChange = {handleInputChange}
                             />
 
                             <TextField
-                            id="outlined-read-only-input"
+                            required
+                            name="nombreEmpresa"
                             label="Nombre Empresa"
-                            defaultValue="Hello World"
-                            InputProps={{
-                                readOnly: true,
-                            }}
                             variant="filled"
                             sx = {{width: 500}}
+                            onChange = {handleInputChange}
                             />
 
                             <TextField
-                            id="outlined-read-only-input"
+                            disabled
+                            name="correo"
                             label="Correo"
-                            defaultValue="Hello World"
-                            InputProps={{
-                                readOnly: true,
-                            }}
+                            value={user.email}
                             variant="filled"
                             sx = {{width: 500}}
+                            onChange = {handleInputChange}
                             />
 
                             <TextField
-                            id="filled-helperText"
+                            name="logo"
                             label="Imagen de Empresa"
-                            defaultValue="Default Value"
                             helperText="Aqui deja el link a la imagen que quieres que usemos para tu empresa"
                             variant="filled"
                             sx = {{width: 500}}
+                            onChange = {handleInputChange}
                             />
 
                         </Stack>
@@ -101,14 +145,12 @@ class RegisteringSite extends React.Component {
                         <Stack spacing = {4}>
                         <h6>Para traer imagenes para tu logo te <br></br>recomendamos el siguiente recurso</h6>
                         <Button variant="text" startIcon = {<AddPhotoAlternateIcon/>}><Link href="https://picsum.photos" underline="none" target = "_blank ">Ingresa Aqui</Link></Button>
-                        <Button variant="contained">REGISTRARSE <br></br>EN MEME</Button>
+                        <Button variant="contained" onClick={handleSubmit}>REGISTRARSE <br></br>EN MEME</Button>
                         </Stack>
                     </Grid>
                     </Grid>
                 </Item>
             </div>
         );
-    }
-    
 };
 export default RegisteringSite;
