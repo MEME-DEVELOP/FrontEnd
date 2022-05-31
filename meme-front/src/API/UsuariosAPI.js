@@ -34,3 +34,12 @@ export const getUserID = async() => {
     return data.length + 1;
 
 }
+
+export const postUser = async(data) =>{
+    console.log(data)
+    await axios.post("http://localhost:8000/UsuarioD/", data)
+        .then(resolve =>{
+            
+            console.log("USUARIO RESGISTRADO")
+        })
+}

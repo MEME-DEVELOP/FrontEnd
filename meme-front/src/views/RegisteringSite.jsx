@@ -9,8 +9,10 @@ import Button from '@mui/material/Button';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import Link from '@mui/material/Link';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import {getUserID} from "../API/UsuariosAPI";
+import {getUserID, postUser} from "../API/UsuariosAPI";
 import { useAuth0 } from "@auth0/auth0-react";
+import { blue} from "@mui/material/colors";
+import Typography from '@mui/material/Typography';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -28,10 +30,10 @@ const RegisteringSite = () => {
 
     const [userId, setUserId] = useState(0);
     const [datos, setDatos] = useState({
-        id: userId,
-        nombreUser: user.name,
+        idusuario: userId,
+        nombreusuario: user.name,
         documento: 0,
-        nombreEmpresa: "",
+        nombreempresa: "",
         correo: user.email,
         logo: ""
     });
@@ -39,8 +41,14 @@ const RegisteringSite = () => {
     const idUser = async() =>{
         let data = await getUserID();
         setUserId(data);
+        setDatos({...datos,
+            idusuario: userId})
         
     }
+
+    const postingUser = async() =>{
+        await postUser(datos)
+    } 
 
     useEffect(() => {
         idUser();
@@ -53,12 +61,18 @@ const RegisteringSite = () => {
         })
     }
     const handleSubmit= (event) => {
-        if(datos.documento === "" ||  datos.nombreEmpresa === "" || datos.id === 0){
+        if(datos.documento === "" ||  datos.nombreempresa === "" || datos.idusuario === 0){
             setDatos({...datos,
-                id: userId})
+                idusuario: userId})
             alert("PORFAVOR RELLENA TODOS LOS CAMPOS")
+            console.log(userId)
+            console.log(datos.idusuario)
+            console.log(datos.documento)
+            console.log(datos.nombreempresa)
         }else{
             alert(JSON.stringify(datos))
+            postingUser()
+
         }
     } 
 
@@ -66,8 +80,10 @@ const RegisteringSite = () => {
         return(
             <div class = "p-5">
                 <Item elevation = {24} sx = {{alignSelf:"center"}} >
-
-                    <h1>Bienvenido a MEME</h1>
+                    <Typography variant="h2" sx={{color: blue[800]}}>
+                        BIENVENIDO A MEME
+                    </Typography>;
+                    
                     <h3>Debido a que es tu primera vez en la applicacion te solicitaremos algunos datos</h3>
                     <Grid container spacing= {3} justifyContent="center" alignItems = "center"  sx = {{paddingTop:4}}>
                         <Grid item>
@@ -75,7 +91,7 @@ const RegisteringSite = () => {
 
                             <TextField
                             disabled
-                            name="id"
+                            name="idusuario"
                             label="ID"
                             value= {userId}
                             variant="filled"
@@ -89,7 +105,7 @@ const RegisteringSite = () => {
 
                             <TextField
                             disabled
-                            name="nombreUser"
+                            name="nombreusuario"
                             label="Nombre de Usuario"
                             value={user.name}
                             variant="filled"
@@ -112,7 +128,7 @@ const RegisteringSite = () => {
 
                             <TextField
                             required
-                            name="nombreEmpresa"
+                            name="nombreempresa"
                             label="Nombre Empresa"
                             variant="filled"
                             sx = {{width: 500}}

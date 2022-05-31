@@ -9,7 +9,7 @@ class UserSettings extends React.Component{
     }
 
     getUserInfo = async() =>{
-        let data = await APIgetUserEmail("gamo@gmail.com");
+        let data = await APIgetUserEmail();
         this.setState({user : data});
     }
 
