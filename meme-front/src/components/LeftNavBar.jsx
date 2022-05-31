@@ -40,7 +40,8 @@ const LeftNavBar = () =>{
     }
 
     const handleInventario = (event) =>{
-
+        event.preventDefault();
+        navigate("/Productos", { replace: true });
     }
 
     const getUserInfo = async() => {
@@ -73,7 +74,7 @@ const LeftNavBar = () =>{
                 <Avatar alt = {userDatos.nombreempresa}
                         sx = {{width: 100, height: 100, alignSelf: "center"}}
                          src = {userDatos.logo}></Avatar>
-                <Button variant = 'contained' >Inventario</Button>
+                <Button variant = 'contained' onClick={handleInventario}>Inventario</Button>
                 <Button variant="contained" >Pedidos</Button>
                 
             </Stack>

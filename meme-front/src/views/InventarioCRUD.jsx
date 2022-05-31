@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import {APIgetIdByEmail} from "../API/UsuariosAPI";
+import { APIgetAllProducts } from "../API/ProductosAPI";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -18,19 +19,20 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-const UserSettings =()=>{
+const InventarioCRUD =()=>{
 
-    const [idUser, setIdUser] = useState(0)
+    const [products, setProducts] = useState([])
     const [isLoading, setLoading] = useState(true)
+
     const { user} = useAuth0();
 
     useEffect(() => {
-        getIdUser();
+        getAllProducts();
     }, []);
 
-    const getIdUser = () => {
-        APIgetIdByEmail(user.email).then(result =>{
-            setIdUser(result)
+    const getAllProducts = () => {
+        APIgetAllProducts().then(result =>{
+            setProducts(result)
             setLoading(false)
         })
     };
@@ -46,9 +48,8 @@ const UserSettings =()=>{
               </Grid>
               <Grid item md={10} >
                 <Item>
-                    <p> Hola este es UserSettings</p>
-                    <h1>ESTE ES EL ID</h1>
-                    <h1>{idUser}</h1>
+                    <p> Hola este es InventarioCRUD</p>
+                    <p>{JSON.stringify(products)}</p>
                 </Item>
               </Grid>
             </Grid>
@@ -56,4 +57,4 @@ const UserSettings =()=>{
         );
 
 };
-export default UserSettings;
+export default InventarioCRUD;

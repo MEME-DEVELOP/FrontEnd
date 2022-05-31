@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import RegisteringSite from './views/RegisteringSite';
 import {APIgetUserEmail} from "./API/UsuariosAPI";
 import UserSettings from './views/UserSettings';
+import InventarioCRUD from './views/InventarioCRUD';
 
 //import ProtectedRoute from './components/ProtectedRoute';
 
@@ -24,6 +25,7 @@ const App = ()  => {
           <Route  path="/Home"  element = {<Home />}/>
           <Route path = "/Registering" element = {<RegisteringSite/>} />
           <Route path = "/UserSettings" element = {<UserSettings/>} />
+          <Route path = "/Productos" element = {<InventarioCRUD/>} />
         </Routes>
   );
 }
