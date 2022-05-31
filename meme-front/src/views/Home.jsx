@@ -9,7 +9,8 @@ import Grid from '@mui/material/Grid';
 import UserSettings from "./UserSettings";
 import {Navigate} from 'react-router-dom';
 import Loading from "../components/Loading";
-import axios from 'axios';
+import {APIgetUserEmail} from "../API/UsuariosAPI";
+
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -32,18 +33,14 @@ const Home = () => {
     }, []);
 
     const getUserData = () => {
-        axios.get('http://localhost:8000/UsuarioD/', {
-            params: {
-                correo: user.email
-            }
-        }).then(result=>{
-            if (result.data[0] === undefined) {
+        APIgetUserEmail(user.email).then(result =>{
+            if (result === 0) {
                 setIsInDB(false)
             } else{
                 setIsInDB(true)
             }
             setLoading(false)
-        }).catch(console.log);
+        })
     };
 
     if(isLoading){
@@ -51,7 +48,6 @@ const Home = () => {
     }
 
     if(!(isInDB)){
-        console.log("Entreee")
         return(
                 <div>
                     <Navigate to="/Registering" replace={true} />
