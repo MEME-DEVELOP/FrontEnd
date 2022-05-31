@@ -5,7 +5,7 @@ import HomePrueba from './views/HomePrueba';
 import Loading from './components/Loading';
 import { useAuth0 } from "@auth0/auth0-react";
 //import ProtectedRoute from './components/ProtectedRoute';
-
+import Pedidos from './views/Pedidos';
 const App = ()  => {
 
   const { isLoading } = useAuth0();
@@ -19,6 +19,7 @@ const App = ()  => {
         <Routes>
           <Route path="/"  element = {<HomePrueba />}/>
           <Route  path="/Home"  element = {<Home />}/>
+          <Route path="/Pedidos" element={<Pedidos/>}/>
         </Routes>
   );
 }
