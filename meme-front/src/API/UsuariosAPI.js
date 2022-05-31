@@ -1,11 +1,8 @@
 import axios from 'axios';
 
-
-
 export const APIgetUsuarios = async () => {
     let users = [];
     await axios.get('http://localhost:8000/UsuarioD/').then(result=>{
-            console.log(result.data);
             users = result.data
            
     }).catch(console.log);
@@ -13,14 +10,20 @@ export const APIgetUsuarios = async () => {
     return users;
 };
 
-function APIgetUserEmail(){
+export const APIgetUserEmail = async(email) =>{
     let users = [];
-    axios.get('http://localhost:8000/UsuarioD').then(result=>{
-            console.log(result.data);
-            users = result.data
+    await axios.get('http://localhost:8000/UsuarioD/', {
+        params: {
+            correo: email
+        }
+    }).then(result=>{
+            if (result.data[0] === undefined) {
+                users = 0
+            } else{
+                users = result.data
+            }
+            
     }).catch(console.log);
 
     return users;
 };
-
-export {APIgetUserEmail};

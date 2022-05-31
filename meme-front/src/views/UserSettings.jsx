@@ -1,16 +1,20 @@
 import React from 'react';
-import {APIgetUsuarios} from "../API/UsuariosAPI";
+import {APIgetUserEmail} from "../API/UsuariosAPI";
 
 class UserSettings extends React.Component{
 
     state = {
-        inventarios : []
+        user : []
 
     }
+
+    getUserInfo = async() =>{
+        let data = await APIgetUserEmail("gamo@gmail.com");
+        this.setState({user : data});
+    }
+
     componentDidMount() {
-        let x = APIgetUsuarios();
-        console.log("Este es un error " + x)
-        this.setState({inventarios : x});
+        this.getUserInfo()
     }
 
 
@@ -18,7 +22,7 @@ class UserSettings extends React.Component{
 
         return (
         <p> 
-            Hola
+            {JSON.stringify(this.state.user)}
         </p>
         );
     }

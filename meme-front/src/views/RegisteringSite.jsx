@@ -1,12 +1,13 @@
 import React from "react";
 
-const RegisteringSite = () =>{
+class RegisteringSite extends React.Component {
 
     
-    
-    return(
-       <h1>LOL</h1>
-    );
+    render(){
+        return(
+            <h1>LOL</h1>
+        );
+    }
     
 };
 export default RegisteringSite;
