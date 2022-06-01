@@ -44,7 +44,10 @@ const LeftNavBar = () =>{
         event.preventDefault();
         navigate("/Productos", { replace: true });
     }
-
+    const handlePedidos = (event) =>{
+        event.preventDefault();
+        navigate("/Pedidos", { replace: true });
+    }
     const getUserInfo = async() => {
         APIgetUserEmail(user.email).then(result =>{
             let x = result[0]
@@ -76,7 +79,7 @@ const LeftNavBar = () =>{
                         sx = {{width: 100, height: 100, alignSelf: "center"}}
                          src = {userDatos.logo}></Avatar>
                 <Button variant = 'contained' onClick={handleInventario}>Inventario</Button>
-                <Button variant="contained" >Pedidos</Button>
+                <Button variant = "contained" onClick={handlePedidos} >Pedidos</Button>
                 
             </Stack>
             
