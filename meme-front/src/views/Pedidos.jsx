@@ -10,6 +10,9 @@ import BasketCart from "../components/Cart/BasketCart";
 import data from "../data";
 import { useState } from "react";
 
+import { APIgetAllProducts } from "../API/ProductosAPI";
+
+
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -70,6 +73,7 @@ const Pedidos = ()  => {
                 <div className="row" >
                     
                 <MainCart onAdd={onAdd} products ={products}></MainCart>
+                <dataTmp>Holaaaaaaaaas</dataTmp>
                 
                 
                 </div>
