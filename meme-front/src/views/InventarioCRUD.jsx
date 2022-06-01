@@ -8,6 +8,12 @@ import Grid from '@mui/material/Grid';
 import LeftNavBar from "../components/LeftNavBar";
 import { styled } from '@mui/material/styles';
 import Loading from '../components/Loading';
+import { Button, Typography } from "@mui/material";
+import { blue } from "@mui/material/colors";
+import "./InventarioCRUD.css";
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Avatar from '@mui/material/Avatar';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -15,7 +21,9 @@ const Item = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    height: '100%'
+    height: '100%',
+    overflow: "hidden"
+
 }));
 
 
@@ -23,7 +31,7 @@ const InventarioCRUD =()=>{
 
     const [products, setProducts] = useState([])
     const [isLoading, setLoading] = useState(true)
-    
+
     const { user} = useAuth0();
 
     useEffect(() => {
@@ -54,8 +62,28 @@ const InventarioCRUD =()=>{
               </Grid>
               <Grid item md={10} >
                 <Item>
-                    <p> Hola este es InventarioCRUD</p>
-                    <p>{JSON.stringify(products)}</p>
+                    <Typography variant="h4" sx={{color: blue[700],alignSelf:"center"}} >
+                        INVENTARIO
+                    </Typography>
+                    <br/>
+                    <Typography variant="h6" sx={{alignSelf:"center"}} >
+                        Aqui se despliegan todos los productos que tienes almacenados en tu inventario
+                        <br></br>
+                        A tu derecha tendras un boton para agregar mas productos a tu inventario
+                    </Typography>
+                    <div className="contain">
+                        {products.map((it) => (
+                            <Paper key={it.idproducto} elevation={6} sx = {{width: 200, height: 250}}> 
+                                <h1>{it.nombre}</h1>
+                                    <Avatar src = {it.imagen} />
+                                    
+                                    <Button variant= "outlined" startIcon={<ModeEditIcon /> }></Button>
+                                    <Button variant= "contained" color = "error" startIcon = {<DeleteIcon />}></Button>
+                                
+                            </Paper>
+                        ))}
+                    </div>
+                    
                 </Item>
               </Grid>
             </Grid>
