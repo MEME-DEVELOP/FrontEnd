@@ -105,6 +105,8 @@ const InventarioCRUD =()=>{
         await APIgetIdByEmail(user.email).then(result =>{
             x = result
             setUserActID(x)
+            setDatos({...datos,
+                idusuario: userActID})
         })
         await APIgetProductsbyID(x).then(result =>{
             if (result === undefined){
@@ -113,7 +115,10 @@ const InventarioCRUD =()=>{
                 setisEmpty(true)
             }
             setProducts(result)
+            setUserActID(x)
             setLoading(false)
+            setDatos({...datos,
+                idusuario: userActID})
         })
     };
     
@@ -125,6 +130,8 @@ const InventarioCRUD =()=>{
     const handleSubmit= (event) => {
         if(datos.idproducto === 0 ||  datos.nombre === "" || datos.preciounidad === 0 || datos.stock === 0 || datos.idusuario === 0){
             alert("PORFAVOR RELLENA TODOS LOS CAMPOS")
+            
+            console.log(datos)
             
         }else{
             
@@ -287,7 +294,7 @@ const InventarioCRUD =()=>{
                         }}
                         variant="filled"
                         sx = {{width: 300}}
-                        onChange = {handleInputChange}
+                        
                         />
                     <Button variant="contained" onClick= {handleSubmit}>AGREGAR</Button>
                 </Stack>
