@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import generatePDF from "../services/reportGenerator";
 import TicketsComponent from "./TicketsComponent";
+import axios from 'axios';
 
 const Tickets = () => {
   
@@ -25,21 +26,18 @@ const reportTickets = tickets.filter(ticket => ticket.status === "completed");
     <div>
       <div className="container mb-4 mt-4 p-3">
         <div className="row">
-          {user.user.role === "user" ? (
-            <> </>
-          ) : (
+           (
             <button
               className="btn btn-primary"
               onClick={() => generatePDF(reportTickets)}
             >
               Generate monthly report
             </button>
-          )}
+          )
         </div>
       </div>
       <TicketsComponent tickets={tickets} />
     </div>
-  );
-};
-
+ )};
+           
 export default Tickets;
