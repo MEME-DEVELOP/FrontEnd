@@ -34,7 +34,7 @@ const InventarioCRUD =()=>{
 
     const [products, setProducts] = useState([])
     const [isLoading, setLoading] = useState(true)
-
+    const [isEmpty, setisEmpty] = useState(true)
     const { user} = useAuth0();
 
     useEffect(() => {
@@ -44,7 +44,6 @@ const InventarioCRUD =()=>{
     
     
     function handleRemove(id){
-        console.log("entrea aqui ayudaaa")
         const newList = products.filter((item) => item.idproducto !== id);
         setProducts(newList);
         deletProduct(id);
@@ -60,7 +59,9 @@ const InventarioCRUD =()=>{
             x = result
         })
         await APIgetProductsbyID(x).then(result =>{
-            
+            if (result == undefined){
+                setisEmpty(false)
+            }
             setProducts(result)
             setLoading(false)
         })
@@ -97,32 +98,39 @@ const InventarioCRUD =()=>{
                         </Grid>
                     </Grid>
                     <div className="contain">
-                        {products.map((it) => (
-                            <Paper key={it.idproducto} elevation={6} sx = {{width: 200, height: 250}}> 
-                                <Stack spacing = {1}>
-                                        <Typography variant="h5" sx={{alignSelf:"center"}} >
-                                            {it.nombre}
-                                        </Typography>
-                                    
-                                        <Avatar src = {it.imagen} sx={{ width: 100, height: 100, alignSelf:"center" }} />
-                                   
-                                        <Typography variant="h7" sx={{alignSelf:"center"}} >
-                                            P/U: {it.preciounidad}
-                                        </Typography>
+                        {
+                            isEmpty && products.map((it) => (
+                                <Paper key={it.idproducto} elevation={6} sx = {{width: 200, height: 250}}> 
+                                    <Stack spacing = {1}>
+                                            <Typography variant="h5" sx={{alignSelf:"center"}} >
+                                                {it.nombre}
+                                            </Typography>
                                         
-                                        <Typography variant="h7" sx={{alignSelf:"center"}} >
-                                            Stock: {it.stock}
-                                        </Typography>
+                                            <Avatar src = {it.imagen} sx={{ width: 100, height: 100, alignSelf:"center" }} />
                                     
-                                    <Grid item xs = {12}>
-                                        <Button variant= "outlined" startIcon={<ModeEditIcon /> }></Button>
-                                        <Button variant= "contained" color = "error" startIcon = {<DeleteIcon />} onClick = {()=>handleRemove(it.idproducto)}></Button>
-                                    </Grid>
-                                        
-                                
-                                </Stack>
-                            </Paper>
-                        ))}
+                                            <Typography variant="h7" sx={{alignSelf:"center"}} >
+                                                P/U: {it.preciounidad}
+                                            </Typography>
+                                            
+                                            <Typography variant="h7" sx={{alignSelf:"center"}} >
+                                                Stock: {it.stock}
+                                            </Typography>
+                                        <Grid container spacing = {1}>
+                                        <Grid item xs = {5}>
+                                            <Button size ="medium" variant= "outlined" startIcon={<ModeEditIcon /> }></Button>
+                                            
+                                        </Grid>
+                                        <Grid item xs = {5}>
+                                            
+                                            <Button  size ="medium" variant= "contained" color = "error" startIcon = {<DeleteIcon />} onClick = {()=>handleRemove(it.idproducto)}></Button>
+                                        </Grid>
+                                        </Grid>
+                                    </Stack>
+                                </Paper>
+                            ))
+                        
+                        
+                        }
                     </div>
                     
                 </Item>
