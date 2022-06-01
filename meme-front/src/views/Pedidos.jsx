@@ -63,17 +63,17 @@ const Pedidos = ()  => {
               <Grid item md={10} >
                 <Item>
                 <div class="row">
-                <div class="column"><HeaderCart countCartItems={cartItems.length}></HeaderCart></div>
-                <div class="column"><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
+                <div ><HeaderCart countCartItems={cartItems.length}></HeaderCart></div>
+                <div ><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
                 </div>
                 <div>
                 
                 
                 </div>
                 <div className="row" >
-                    
+                 
                 <MainCart onAdd={onAdd} products ={products}></MainCart>
-                <dataTmp>Holaaaaaaaaas</dataTmp>
+                
                 
                 
                 </div>
