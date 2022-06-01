@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 import LeftNavBar from "../components/LeftNavBar";
-
+import { useAuth0 } from "@auth0/auth0-react";
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-
+import UserSettings from "./UserSettings";
+import {Navigate} from 'react-router-dom';
+import Loading from "../components/Loading";
+import {APIgetUserEmail} from "../API/UsuariosAPI";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -18,29 +21,54 @@ const Item = styled(Paper)(({ theme }) => ({
     height: '100%'
 }));
 
+const Home = () => {
 
+    const { user} = useAuth0();
 
+    const [isLoading, setLoading] = useState(true)
+    const [isInDB, setIsInDB] = useState(false)
 
-class Home extends React.Component{
+    useEffect(() => {
+        getUserData();
+    }, []);
 
-   
-
-    render(){
-        return(
-        <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >
-            <Grid container spacing={2} className = 'hola'>
-              <Grid item md={2}>
-                
-                    <LeftNavBar />
-                
-              </Grid>
-              <Grid item md={10} >
-                <Item>
-                    
-                </Item>
-              </Grid>
-            </Grid>
-        </Box>
-        )
+    const getUserData = () => {
+        APIgetUserEmail(user.email).then(result =>{
+            if (result === 0) {
+                setIsInDB(false)
+            } else{
+                setIsInDB(true)
+            }
+            setLoading(false)
+        })
     };
-}export default Home;
+
+    if(isLoading){
+        return <Loading />
+    }
+
+    if(!(isInDB)){
+        return(
+                <div>
+                    <Navigate to="/Registering" replace={true} />
+                </div>
+        );
+    }else{
+        return(
+            <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >
+                <Grid container spacing={2} className = 'hola'>
+                  <Grid item md={2}>
+                        <LeftNavBar />
+                  </Grid>
+                  <Grid item md={10} >
+                    <Item>
+                        <p> HOla este es el home</p>
+                    </Item>
+                  </Grid>
+                </Grid>
+            </Box>
+        );
+    }
+
+};
+export default Home;
