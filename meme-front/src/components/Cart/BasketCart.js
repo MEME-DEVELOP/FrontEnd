@@ -59,7 +59,7 @@ export default function BasketCart(props){
             </div>
             <hr />
             <div className="row">
-              <button onClick={() => alert("Hola")}>
+              <button  onClick={() => alert("Hola")}>
                 Hacer pedidos
               </button>
             </div>

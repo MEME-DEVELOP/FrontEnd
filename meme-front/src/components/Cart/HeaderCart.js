@@ -8,15 +8,9 @@ export default function HeaderCart(props){
  
             <header className ="row block2 center">
          <div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
+   
           <h1 className='whitetext'>Carrito de compras MEME</h1>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
+ 
         
       </div>
       <div>
