@@ -18,6 +18,12 @@ const data = {
         price: 1000,
         image: 'https://picsum.photos/id/21/3008/2008',
       },
+      {
+        id: '4',
+        name: 'Celulares',
+        price: 1000,
+        image: 'https://th.bing.com/th/id/OIP.yKn9T2CZXWtVcSUm3zUbJwHaHa?w=209&h=209&c=7&r=0&o=5&pid=1.7',
+      },
     ],
   };
   export default data;

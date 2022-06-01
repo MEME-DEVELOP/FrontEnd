@@ -8,7 +8,7 @@ import HeaderCart from "../components/Cart/HeaderCart";
 import MainCart from "../components/Cart/MainCart";
 import BasketCart from "../components/Cart/BasketCart";
 import data from "../data";
-
+import { useState } from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -20,10 +20,35 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-class Pedidos extends React.Component {
+const Pedidos = ()  => {
     
-    render() {
-        const { products } = data;    
+    
+        const { products } = data;
+        const [cartItems, setCartItems] = useState([]);
+        const onAdd = (product) => {
+          const exist = cartItems.find((x) => x.id === product.id);
+          if (exist) {
+            setCartItems(
+              cartItems.map((x) =>
+                x.id === product.id ? { ...exist, qty: exist.qty + 1 } : x
+              )
+            );
+          } else {
+            setCartItems([...cartItems, { ...product, qty: 1 }]);
+          }
+        };
+        const onRemove = (product) => {
+          const exist = cartItems.find((x) => x.id === product.id);
+          if (exist.qty === 1) {
+            setCartItems(cartItems.filter((x) => x.id !== product.id));
+          } else {
+            setCartItems(
+              cartItems.map((x) =>
+                x.id === product.id ? { ...exist, qty: exist.qty - 1 } : x
+              )
+            );
+          }
+        };
         return (
             <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >
             <Grid container spacing={2} className = 'hola'>
@@ -34,12 +59,20 @@ class Pedidos extends React.Component {
               </Grid>
               <Grid item md={10} >
                 <Item>
-                <HeaderCart></HeaderCart>
-                <div className="row" >
-                <MainCart products ={products}></MainCart>
-                <BasketCart></BasketCart>
+                <div class="row">
+                <div class="column"><HeaderCart countCartItems={cartItems.length}></HeaderCart></div>
+                <div class="column"><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
                 </div>
+                <div>
                 
+                
+                </div>
+                <div className="row" >
+                    
+                <MainCart onAdd={onAdd} products ={products}></MainCart>
+                
+                
+                </div>
                 </Item>
               </Grid>
             </Grid>
@@ -48,6 +81,7 @@ class Pedidos extends React.Component {
             
         )
 
-    }
+    
 
-}export default Pedidos;
+};
+export default Pedidos;
