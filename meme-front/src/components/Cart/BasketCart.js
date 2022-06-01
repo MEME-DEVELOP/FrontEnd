@@ -9,11 +9,13 @@ export default function BasketCart(props){
     const totalPrice = itemsPrice + taxPrice + shippingPrice;
     return(
 
-<aside className="row block center">
-      <h2>Productos </h2>
-      <div>
+<aside className="row block2 center">
+      <h2 className='whitetext'>Productos </h2>
+      <div className='whitetext'>
         {cartItems.length === 0 && <div>No ha adicionado ningún producto</div>}
+        
         {cartItems.map((item) => (
+          
           <div key={item.idproducto} className="row">
             <div className="col-2">{item.nombre}</div>
             <div className="col-2">
@@ -59,7 +61,7 @@ export default function BasketCart(props){
             </div>
             <hr />
             <div className="row">
-              <button onClick={() => alert("Hola")}>
+              <button  onClick={() => alert("Hola")}>
                 Hacer pedidos
               </button>
             </div>
