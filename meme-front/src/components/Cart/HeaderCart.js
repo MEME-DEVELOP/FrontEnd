@@ -12,7 +12,7 @@ export default function HeaderCart(props){
             <br></br>
             <br></br>
             <br></br>
-          <h1>Carrito de compras MEME</h1>
+          <h1 className='whitetext'>Carrito de compras MEME</h1>
             <br></br>
             <br></br>
             <br></br>
@@ -21,7 +21,7 @@ export default function HeaderCart(props){
       </div>
       <div>
         
-          <h1>Elementos{' '}</h1>
+          <h1 className='whitetext'>Elementos{' '}</h1>
           <br></br>
             
             

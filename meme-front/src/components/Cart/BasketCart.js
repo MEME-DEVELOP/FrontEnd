@@ -9,9 +9,9 @@ export default function BasketCart(props){
     const totalPrice = itemsPrice + taxPrice + shippingPrice;
     return(
 
-<aside className="row block center">
-      <h2>Productos </h2>
-      <div>
+<aside className="row block2 center">
+      <h2 className='whitetext'>Productos </h2>
+      <div className='whitetext'>
         {cartItems.length === 0 && <div>No ha adicionado ningún producto</div>}
         {cartItems.map((item) => (
           <div key={item.idproducto} className="row">
