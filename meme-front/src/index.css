@@ -42,6 +42,12 @@ a {
   margin: 0.5rem;
   border-radius: 0.5rem;
 }
+.block2 {
+  background-color: #aaa00c;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+}
 .text-right {
   text-align: right;
 }

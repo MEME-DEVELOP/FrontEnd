@@ -9,7 +9,7 @@ export default function MainCart(props){
  <h2>Products</h2>
       <div className="row">
         {products.map((product) => (
-          <Product key={product.id} product={product} onAdd={onAdd}></Product>
+          <Product key={product.idproducto} product={product} onAdd={onAdd}></Product>
         ))}
       </div>
       </main>

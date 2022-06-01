@@ -26,11 +26,11 @@ const Pedidos = ()  => {
         const { products } = data;
         const [cartItems, setCartItems] = useState([]);
         const onAdd = (product) => {
-          const exist = cartItems.find((x) => x.id === product.id);
+          const exist = cartItems.find((x) => x.idproducto === product.idproducto);
           if (exist) {
             setCartItems(
               cartItems.map((x) =>
-                x.id === product.id ? { ...exist, qty: exist.qty + 1 } : x
+                x.idproducto === product.idproducto ? { ...exist, qty: exist.qty + 1 } : x
               )
             );
           } else {
@@ -38,13 +38,13 @@ const Pedidos = ()  => {
           }
         };
         const onRemove = (product) => {
-          const exist = cartItems.find((x) => x.id === product.id);
+          const exist = cartItems.find((x) => x.idproducto === product.idproducto);
           if (exist.qty === 1) {
-            setCartItems(cartItems.filter((x) => x.id !== product.id));
+            setCartItems(cartItems.filter((x) => x.idproducto !== product.idproducto));
           } else {
             setCartItems(
               cartItems.map((x) =>
-                x.id === product.id ? { ...exist, qty: exist.qty - 1 } : x
+                x.idproducto === product.idproducto ? { ...exist, qty: exist.qty - 1 } : x
               )
             );
           }
