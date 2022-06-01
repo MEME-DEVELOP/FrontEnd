@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import {APIgetIdByEmail} from "../API/UsuariosAPI";
-import { APIgetProductsbyID } from "../API/ProductosAPI";
+import { APIgetProductsbyID, getProductID, postProduct} from "../API/ProductosAPI";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import LeftNavBar from "../components/LeftNavBar";
@@ -16,7 +16,20 @@ import Avatar from '@mui/material/Avatar';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import { deleteProductbyId } from "../API/ProductosAPI";
+import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,16 +46,50 @@ const Item = styled(Paper)(({ theme }) => ({
 const InventarioCRUD =()=>{
 
     const [products, setProducts] = useState([])
+    const [prodId, setProdId] = useState(0);
+    const [userActID, setUserActID] = useState(0);
     const [isLoading, setLoading] = useState(true)
     const [isEmpty, setisEmpty] = useState(true)
+    const [open, setOpen] = useState(false);
+   
+    const handleClose = () => setOpen(false);
     const { user} = useAuth0();
 
-    useEffect(() => {
+    const [datos, setDatos] = useState({
+        idproducto: prodId,
+        nombre: "",
+        preciounidad: 0,
+        stock: 0,
+        imagen: "",
+        idusuario: userActID
+    });
+
+    useEffect(() => { //
         getProducts();
-       
+        idProducto();
     }, []);
     
-    
+    const handleInputChange= (event) => {
+        setDatos({
+            ...datos,
+            [event.target.name] : event.target.value
+        })
+    }
+
+    const idProducto = async() =>{
+        let data = await getProductID();
+        setProdId(data)
+        setDatos({...datos,
+            idproducto: prodId})
+    }
+
+    const handleOpen = () => {
+        idProducto()
+        setOpen(true)
+        setDatos({...datos,
+            idusuario: userActID})
+        
+    };
     function handleRemove(id){
         const newList = products.filter((item) => item.idproducto !== id);
         setProducts(newList);
@@ -57,16 +104,38 @@ const InventarioCRUD =()=>{
         let x = 0
         await APIgetIdByEmail(user.email).then(result =>{
             x = result
+            setUserActID(x)
         })
         await APIgetProductsbyID(x).then(result =>{
-            if (result == undefined){
+            if (result === undefined){
                 setisEmpty(false)
+            }else{
+                setisEmpty(true)
             }
             setProducts(result)
             setLoading(false)
         })
     };
     
+    const postingProduct = async() =>{
+        await postProduct(datos)
+        
+    } 
+
+    const handleSubmit= (event) => {
+        if(datos.idproducto === 0 ||  datos.nombre === "" || datos.preciounidad === 0 || datos.stock === 0 || datos.idusuario === 0){
+            alert("PORFAVOR RELLENA TODOS LOS CAMPOS")
+            
+        }else{
+            
+            postingProduct()
+            getProducts();
+            setOpen(false)
+            
+        }
+    } 
+
+
     if(isLoading){
         return <Loading />
     }
@@ -91,7 +160,7 @@ const InventarioCRUD =()=>{
                         </Typography>
                         </Grid>
                         <Grid item xs={3} sx={{alignSelf:"center"}}>
-                        <Fab variant="extended" color="primary" aria-label="add">
+                        <Fab variant="extended" color="primary" aria-label="add" onClick={handleOpen}>
                             <AddIcon  sx={{ mr: 1 }} />
                             Agregar
                         </Fab>
@@ -136,7 +205,99 @@ const InventarioCRUD =()=>{
                 </Item>
               </Grid>
             </Grid>
+
+
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+            <Box sx ={style}>
+            <Typography id="modal-modal-title" variant="h5" component="h2">
+                Registra tu producto
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Acontinuacion llena los campos requeridos
+            </Typography>
+                <Stack spacing={2}>
+                    <TextField
+                        disabled
+                        name="idproducto"
+                        label="Id del Producto"
+                        value = {datos.idproducto}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="filled"
+                        sx = {{width: 300}}
+                        onChange = {handleInputChange}
+                        />
+                        <TextField
+                        required
+                        name="nombre"
+                        label="Nombre del Producto"
+                        
+                        variant="filled"
+                        sx = {{width: 300}}
+                        onChange = {handleInputChange}
+                        />
+                        <TextField
+                        required
+                        name="preciounidad"
+                        label="Precio Unidad"
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="filled"
+                        sx = {{width: 300}}
+                        onChange = {handleInputChange}
+                        />
+                        <TextField
+                        required
+                        name="stock"
+                        label="Stock"
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="filled"
+                        sx = {{width: 300}}
+                        onChange = {handleInputChange}
+                        />
+                        <TextField
+                        required
+                        name="imagen"
+                        label="Imagen"
+                        
+                        variant="filled"
+                        sx = {{width: 300}}
+                        onChange = {handleInputChange}
+                        />
+                        <TextField
+                        disabled
+                        name="idusuario"
+                        label="IdUser"
+                        value = {userActID}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="filled"
+                        sx = {{width: 300}}
+                        onChange = {handleInputChange}
+                        />
+                    <Button variant="contained" onClick= {handleSubmit}>AGREGAR</Button>
+                </Stack>
+
+            </Box>
+            </Modal>
+
         </Box>
+
+        
         );
 
 };
