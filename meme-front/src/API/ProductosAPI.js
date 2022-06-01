@@ -1,4 +1,5 @@
 import axios from 'axios';
+import dataTmp from '../dataTmp';
 
 export const APIgetAllProducts = async () => {
     let productos = [];
@@ -30,6 +31,7 @@ export const APIgetProductsbyID = async(ID) =>{
                  productos = undefined
               } else{
                  productos = result.data
+                 
               }
             
      }).catch(console.log);

@@ -13,6 +13,7 @@ import { APIgetUserEmail } from "../API/UsuariosAPI";
 import Loading from "./Loading";
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const ButtonSett = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(blue[700]),
@@ -43,7 +44,10 @@ const LeftNavBar = () =>{
         event.preventDefault();
         navigate("/Productos", { replace: true });
     }
-
+    const handlePedidos = (event) =>{
+        event.preventDefault();
+        navigate("/Pedidos", { replace: true });
+    }
     const getUserInfo = async() => {
         APIgetUserEmail(user.email).then(result =>{
             let x = result[0]
@@ -75,7 +79,7 @@ const LeftNavBar = () =>{
                         sx = {{width: 100, height: 100, alignSelf: "center"}}
                          src = {userDatos.logo}></Avatar>
                 <Button variant = 'contained' onClick={handleInventario}>Inventario</Button>
-                <Button variant="contained" >Pedidos</Button>
+                <Button variant = "contained" onClick={handlePedidos} >Pedidos</Button>
                 
             </Stack>
             
