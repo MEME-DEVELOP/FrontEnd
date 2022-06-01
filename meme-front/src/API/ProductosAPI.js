@@ -13,8 +13,7 @@ export const APIgetAllProducts = async () => {
 
 export const getProductID = async() => {
     let data = await APIgetAllProducts();
-   
-    return data.length + 1;
+    return data[data.length -1].idproducto + 1;
 
 }
 
@@ -43,11 +42,11 @@ export const deleteProductbyId = async(id) =>{
     await axios.delete("http://localhost:8000/ProductoD/"+id).then(resolve=>{console.log("Producto Eliminado")})
 }
 
-// export const postUser = async(data) =>{
-//     console.log(data)
-//     await axios.post("http://localhost:8000/UsuarioD/", data)
-//         .then(resolve =>{
+export const postProduct = async(data) =>{
+     console.log(data)
+     await axios.post("http://localhost:8000/ProductoD/", data)
+         .then(resolve =>{
             
-//             console.log("USUARIO RESGISTRADO")
-//         })
-// }
+             console.log("Producto RESGISTRADO")
+         })
+}

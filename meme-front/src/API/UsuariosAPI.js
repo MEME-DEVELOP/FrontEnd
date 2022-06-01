@@ -45,8 +45,7 @@ export const APIgetIdByEmail = async(email) =>{
 
 export const getUserID = async() => {
     let data = await APIgetUsuarios();
-    
-    return data.length + 1;
+    return data[data.length -1].idusuario + 1;
 
 }
 
