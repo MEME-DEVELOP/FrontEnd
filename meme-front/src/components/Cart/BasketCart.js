@@ -9,9 +9,9 @@ export default function BasketCart(props){
     return(
 
 <aside className="row block center">
-      <h2>Cart Items</h2>
+      <h2>Productos </h2>
       <div>
-        {cartItems.length === 0 && <div>Cart is empty</div>}
+        {cartItems.length === 0 && <div>No ha adicionado ningún producto</div>}
         {cartItems.map((item) => (
           <div key={item.id} className="row">
             <div className="col-2">{item.name}</div>

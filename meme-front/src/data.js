@@ -24,6 +24,13 @@ const data = {
         price: 1000,
         image: 'https://th.bing.com/th/id/OIP.yKn9T2CZXWtVcSUm3zUbJwHaHa?w=209&h=209&c=7&r=0&o=5&pid=1.7',
       },
+
+      {
+        id: '6',
+        name: 'Pajaro',
+        price: 1000000,
+        image: 'https://picsum.photos/id/275/200/300',
+      },
     ],
   };
   export default data;
