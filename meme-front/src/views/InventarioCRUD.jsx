@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import {APIgetIdByEmail} from "../API/UsuariosAPI";
-import { APIgetAllProducts } from "../API/ProductosAPI";
+import { APIgetProductsbyID } from "../API/ProductosAPI";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -23,15 +23,21 @@ const InventarioCRUD =()=>{
 
     const [products, setProducts] = useState([])
     const [isLoading, setLoading] = useState(true)
-
+    
     const { user} = useAuth0();
 
     useEffect(() => {
-        getAllProducts();
+        getProducts();
+       
     }, []);
 
-    const getAllProducts = () => {
-        APIgetAllProducts().then(result =>{
+    const getProducts = async() => {
+        let x = 0
+        await APIgetIdByEmail(user.email).then(result =>{
+            x = result
+        })
+        await APIgetProductsbyID(x).then(result =>{
+            
             setProducts(result)
             setLoading(false)
         })

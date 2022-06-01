@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { APIgetIdByEmail } from './UsuariosAPI';
 
 export const APIgetAllProducts = async () => {
     let productos = [];
@@ -19,23 +18,24 @@ export const getProductID = async() => {
 }
 
 
-// export const APIgetProductsbyID = async(ID) =>{
-//      let productos = [];
-//      await axios.get('http://localhost:8000/UsuarioD/', {
-//          params: {
-//             idusuario: ID
-//          }
-//      }).then(result=>{
-//              if (result.data[0] === undefined) {
-//                 productos = 0
-//              } else{
-//                 productos = result.data
-//              }
+export const APIgetProductsbyID = async(ID) =>{
+      let productos = [];
+      await axios.get('http://localhost:8000/ProductoD/', {
+          params: {
+             idusuario: ID
+          }
+      }).then(result=>{
+            console.log(ID)
+              if (result.data[0] === undefined) {
+                 productos = undefined
+              } else{
+                 productos = result.data
+              }
             
-//      }).catch(console.log);
+     }).catch(console.log);
 
-//      return productos;
-//  };
+     return productos;
+ };
 
 
 
