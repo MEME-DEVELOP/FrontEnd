@@ -25,7 +25,7 @@ export const APIgetProductsbyID = async(ID) =>{
              idusuario: ID
           }
       }).then(result=>{
-            console.log(ID)
+            
               if (result.data[0] === undefined) {
                  productos = undefined
               } else{
@@ -37,7 +37,9 @@ export const APIgetProductsbyID = async(ID) =>{
      return productos;
  };
 
-
+export const deleteProductbyId = async(id) =>{
+    await axios.delete("http://localhost:8000/ProductoD/"+id).then(resolve=>{console.log("Producto Eliminado")})
+}
 
 // export const postUser = async(data) =>{
 //     console.log(data)
