@@ -13,7 +13,7 @@ import {getUserID, postUser} from "../API/UsuariosAPI";
 import { useAuth0 } from "@auth0/auth0-react";
 import { blue} from "@mui/material/colors";
 import Typography from '@mui/material/Typography';
-
+import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -26,8 +26,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const RegisteringSite = () => {
-    const { user} = useAuth0();
+    let navigate = useNavigate();
 
+    const { user} = useAuth0();
     const [userId, setUserId] = useState(0);
     const [datos, setDatos] = useState({
         idusuario: userId,
@@ -37,6 +38,7 @@ const RegisteringSite = () => {
         correo: user.email,
         logo: ""
     });
+
 
     const idUser = async() =>{
         let data = await getUserID();
@@ -48,6 +50,7 @@ const RegisteringSite = () => {
 
     const postingUser = async() =>{
         await postUser(datos)
+        navigate("/Home", { replace: true });
     } 
 
     useEffect(() => {
@@ -65,14 +68,10 @@ const RegisteringSite = () => {
             setDatos({...datos,
                 idusuario: userId})
             alert("PORFAVOR RELLENA TODOS LOS CAMPOS")
-            console.log(userId)
-            console.log(datos.idusuario)
-            console.log(datos.documento)
-            console.log(datos.nombreempresa)
+            
         }else{
-            alert(JSON.stringify(datos))
             postingUser()
-
+            
         }
     } 
 

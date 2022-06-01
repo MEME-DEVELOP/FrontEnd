@@ -83,7 +83,7 @@ const LeftNavBar = () =>{
                 
             </Stack>
             
-            <div class = 'position-absolute bottom-0 start-0 m-4 '>
+            <div class = 'position-absolute bottom-0 start-0 m-4'>
                 <Divider sx = {{paddingBottom: 2}}><ArrowDropDownCircleIcon sx ={{color:blue[50]}}/> </Divider>
                 <Grid container spacing={2} alignItems = "center">
                     <Grid item xs={12}>
