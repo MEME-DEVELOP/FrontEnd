@@ -13,7 +13,9 @@ export default function BasketCart(props){
       <h2 className='whitetext'>Productos </h2>
       <div className='whitetext'>
         {cartItems.length === 0 && <div>No ha adicionado ningún producto</div>}
+        
         {cartItems.map((item) => (
+          
           <div key={item.idproducto} className="row">
             <div className="col-2">{item.nombre}</div>
             <div className="col-2">
