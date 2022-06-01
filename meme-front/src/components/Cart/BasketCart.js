@@ -1,4 +1,5 @@
 import React from 'react'
+import GeneratorPDF from './GeneratorPDF';
 
 export default function BasketCart(props){
     const { cartItems, onAdd, onRemove } = props;
@@ -58,7 +59,7 @@ export default function BasketCart(props){
             </div>
             <hr />
             <div className="row">
-              <button onClick={() => alert('Implement Checkout!')}>
+              <button onClick={() => GeneratorPDF()}>
                 Hacer pedidos
               </button>
             </div>
