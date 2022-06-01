@@ -36,7 +36,7 @@ class Home extends React.Component{
               </Grid>
               <Grid item md={10} >
                 <Item>
-                    
+                    <h1>Homeeee</h1>
                 </Item>
               </Grid>
             </Grid>

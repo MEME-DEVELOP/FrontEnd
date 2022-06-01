@@ -3,7 +3,9 @@ import React from 'react'
 export default function BasketCart(props){
     return(
 
-        <div>Basket</div>
+        <aside className='block col-1'>
+        <h2>Cart Items</h2>
+        </aside>
     )
 
 }

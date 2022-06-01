@@ -18,8 +18,8 @@ const LeftNavBar = () =>{
             isAuthenticated && (
             <div class = "h-100 p-3 bg-primary shadow-lg rounded-3 position-relative">
                 <Stack spacing={2}>
-                    <Link to="/Pedidos"><Button variant = 'contained' >Inventario</Button></Link>                    
-                    <Link to="/Pedidos"><Button variant="contained" >Productos</Button></Link>
+                    <Link to="/Home"><Button variant = 'contained' >Inventario</Button></Link>                    
+                    <Link to="/Home"><Button variant="contained" >Productos</Button></Link>
                     <Link to="/Pedidos"><Button variant="contained" >Pedidos</Button></Link>
                     
 

@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import HeaderCart from "../components/Cart/HeaderCart";
 import MainCart from "../components/Cart/MainCart";
 import BasketCart from "../components/Cart/BasketCart";
-
+import data from "../data";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -21,7 +21,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 class Pedidos extends React.Component {
+    
     render() {
+        const { products } = data;    
         return (
             <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >
             <Grid container spacing={2} className = 'hola'>
@@ -32,11 +34,11 @@ class Pedidos extends React.Component {
               </Grid>
               <Grid item md={10} >
                 <Item>
-                <div><h1>Carrito de compra</h1></div>
                 <HeaderCart></HeaderCart>
-                <div><MainCart></MainCart>
+                <div className="row" >
+                <MainCart products ={products}></MainCart>
                 <BasketCart></BasketCart>
-                    </div>
+                </div>
                 
                 </Item>
               </Grid>
