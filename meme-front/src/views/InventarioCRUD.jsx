@@ -70,10 +70,13 @@ const InventarioCRUD =()=>{
     }, []);
     
     const handleInputChange= (event) => {
+        
         setDatos({
             ...datos,
             [event.target.name] : event.target.value
         })
+        setDatos({...datos,
+            idusuario: userActID})
     }
 
     const idProducto = async() =>{
@@ -81,15 +84,19 @@ const InventarioCRUD =()=>{
         setProdId(data)
         setDatos({...datos,
             idproducto: prodId})
+            
+        setDatos({...datos,
+            idusuario: userActID})
     }
 
     const handleOpen = () => {
-        idProducto()
-        setOpen(true)
         setDatos({...datos,
             idusuario: userActID})
+        idProducto()
+        setOpen(true)
         
     };
+
     function handleRemove(id){
         const newList = products.filter((item) => item.idproducto !== id);
         setProducts(newList);
@@ -108,6 +115,7 @@ const InventarioCRUD =()=>{
             setDatos({...datos,
                 idusuario: userActID})
         })
+        
         await APIgetProductsbyID(x).then(result =>{
             if (result === undefined){
                 setisEmpty(false)
@@ -115,7 +123,6 @@ const InventarioCRUD =()=>{
                 setisEmpty(true)
             }
             setProducts(result)
-            setUserActID(x)
             setLoading(false)
             setDatos({...datos,
                 idusuario: userActID})
@@ -130,14 +137,12 @@ const InventarioCRUD =()=>{
     const handleSubmit= (event) => {
         if(datos.idproducto === 0 ||  datos.nombre === "" || datos.preciounidad === 0 || datos.stock === 0 || datos.idusuario === 0){
             alert("PORFAVOR RELLENA TODOS LOS CAMPOS")
-            
-            console.log(datos)
+            getProducts();
             
         }else{
-            
             postingProduct()
-            getProducts();
             setOpen(false)
+            getProducts();
             
         }
     } 
@@ -294,7 +299,7 @@ const InventarioCRUD =()=>{
                         }}
                         variant="filled"
                         sx = {{width: 300}}
-                        
+                        onChange = {handleInputChange}
                         />
                     <Button variant="contained" onClick= {handleSubmit}>AGREGAR</Button>
                 </Stack>

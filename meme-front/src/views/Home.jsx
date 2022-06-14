@@ -6,7 +6,6 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import UserSettings from "./UserSettings";
 import {Navigate} from 'react-router-dom';
 import Loading from "../components/Loading";
 import {APIgetUserEmail} from "../API/UsuariosAPI";
