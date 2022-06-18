@@ -53,7 +53,7 @@ const Pedidos = ()  => {
     await APIgetIdByEmail(user.email).then(result =>{
         x = result
         setUserActID(x)
-        console.log("Prueba")
+        
         setDatos({...products,
             idusuario: userActID})
             
@@ -69,6 +69,7 @@ const Pedidos = ()  => {
         setLoading(false)
         setDatos({products,
             idusuario: userActID})
+        console.log(products)    
     })
 };
     // 

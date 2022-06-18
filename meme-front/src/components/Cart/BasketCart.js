@@ -29,7 +29,7 @@ export default function BasketCart(props){
             </div>
 
             <div className="col-2 text-right">
-              {item.qty} x ${item.preciounidad.toFixed(2)}
+              {item.qty} x ${Number(item.preciounidad).toFixed(2)}
             </div>
           </div>
         ))}
@@ -39,7 +39,7 @@ export default function BasketCart(props){
             <hr></hr>
             <div className="row">
               <div className="col-2">Precio de productos</div>
-              <div className="col-1 text-right">${itemsPrice.toFixed(2)}</div>
+              <div className="col-1 text-right">${Number(itemsPrice).toFixed(2)}</div>
             </div>
             <div className="row">
               <div className="col-2">Impuesto (IVA 19%)</div>
