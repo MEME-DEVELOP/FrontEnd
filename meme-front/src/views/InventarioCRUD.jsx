@@ -67,32 +67,36 @@ const InventarioCRUD =()=>{
     useEffect(() => { //
         getProducts();
         idProducto();
+        
     }, []);
     
     const handleInputChange= (event) => {
         
         setDatos({
             ...datos,
-            [event.target.name] : event.target.value
+            [event.target.name]:event.target.value
         })
-        setDatos({...datos,
-            idusuario: userActID})
+      
     }
 
     const idProducto = async() =>{
         let data = await getProductID();
+        
         setProdId(data)
+
+        
         setDatos({...datos,
             idproducto: prodId})
-            
-        setDatos({...datos,
-            idusuario: userActID})
+        
     }
 
     const handleOpen = () => {
         setDatos({...datos,
+            idproducto: prodId,
             idusuario: userActID})
-        idProducto()
+
+
+       
         setOpen(true)
         
     };
@@ -101,6 +105,8 @@ const InventarioCRUD =()=>{
         const newList = products.filter((item) => item.idproducto !== id);
         setProducts(newList);
         deletProduct(id);
+        getProducts();
+        idProducto();
     }
 
     const deletProduct = async(idDelProducto) =>{
@@ -108,14 +114,11 @@ const InventarioCRUD =()=>{
     } 
 
     const getProducts = async() => {
-        let x = 0
+        var x;
         await APIgetIdByEmail(user.email).then(result =>{
             x = result
             setUserActID(x)
-            setDatos({...datos,
-                idusuario: userActID})
         })
-        
         await APIgetProductsbyID(x).then(result =>{
             if (result === undefined){
                 setisEmpty(false)
@@ -124,25 +127,34 @@ const InventarioCRUD =()=>{
             }
             setProducts(result)
             setLoading(false)
-            setDatos({...datos,
-                idusuario: userActID})
+            
         })
+
+        
     };
     
     const postingProduct = async() =>{
         await postProduct(datos)
-        
+        await setDatos({...datos,
+            nombre: "",
+            preciounidad: 0,
+            stock: 0,
+            imagen: ""
+           })
+        await  idProducto();
     } 
 
     const handleSubmit= (event) => {
+        
         if(datos.idproducto === 0 ||  datos.nombre === "" || datos.preciounidad === 0 || datos.stock === 0 || datos.idusuario === 0){
             alert("PORFAVOR RELLENA TODOS LOS CAMPOS")
-            getProducts();
-            
+            console.log(datos)
         }else{
-            postingProduct()
-            setOpen(false)
+            postingProduct();
+            setOpen(false);
             getProducts();
+
+
             
         }
     } 
@@ -292,7 +304,7 @@ const InventarioCRUD =()=>{
                         disabled
                         name="idusuario"
                         label="IdUser"
-                        value = {userActID}
+                        value = {datos.idusuario}
                         type="number"
                         InputLabelProps={{
                             shrink: true,
