@@ -10,25 +10,70 @@ import Grid from '@mui/material/Grid';
 import HeaderCart from "../components/Cart/HeaderCart";
 import MainCart from "../components/Cart/MainCart";
 import BasketCart from "../components/Cart/BasketCart";
-import data from "../data";
 import "./Pedidos.css";
-import { APIgetAllProducts } from "../API/ProductosAPI";
+
+
 
 
 const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    height: '100%'
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+  height: '100%'
 }));
 
 
 const Pedidos = ()  => {
+  const [products, setProducts] = useState([])
+    const [prodId, setProdId] = useState(0);
+    const [userActID, setUserActID] = useState(0);
+    const [isLoading, setLoading] = useState(true)
+    const [isEmpty, setisEmpty] = useState(true)
+    const [open, setOpen] = useState(false);
+    const { user} = useAuth0();
+    const [datos, setDatos] = useState({
+          idproducto: prodId,
+          nombre: "",
+          preciounidad: 0,
+          stock: 0,
+          imagen: "",
+          idusuario: userActID
+    });
+
+
+    useEffect(() => { //
+      getProductsPedidos();
+  }, []);
+
+  const getProductsPedidos = async() => {
+    let x = 0
     
+    await APIgetIdByEmail(user.email).then(result =>{
+        x = result
+        setUserActID(x)
+        console.log("Prueba")
+        setDatos({...products,
+            idusuario: userActID})
+            
+    })
     
-        const { products } = data;
+    await APIgetProductsbyID(x).then(result =>{
+        if (result === undefined){
+            setisEmpty(false)
+        }else{
+            setisEmpty(true)
+        }
+        setProducts(result)
+        setLoading(false)
+        setDatos({products,
+            idusuario: userActID})
+    })
+};
+    // 
+      
+        // const { products } = data;
         /*const [products, setProducts] = useState([])
         const [isLoading, setLoading] = useState(true)
     
