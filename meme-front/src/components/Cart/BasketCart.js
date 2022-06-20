@@ -12,7 +12,7 @@ export default function BasketCart(props){
 
 <aside className="row block2 center">
       <h2 className='whitetext'>Productos </h2>
-      <div className='whitetext'>
+      <div className='whitetext' >
         {cartItems.length === 0 && <div>No ha adicionado ningún producto</div>}
         
         {cartItems.map((item) => (
@@ -62,7 +62,7 @@ export default function BasketCart(props){
             </div>
             <hr />
             <div className="row">
-              <button  onClick={() => alert("Hola")}>
+              <button  class="btn btn-info" onClick={() => alert("Hola")}>
                 Hacer pedidos
               </button>
             </div>

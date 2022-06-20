@@ -134,16 +134,17 @@ const Pedidos = ()  => {
               <Grid item md={10} >
                 <Item>
                 <div class="row">
-                <div ><HeaderCart countCartItems={cartItems.length}></HeaderCart></div>
+                <div id="main"><HeaderCart countCartItems={cartItems.length}></HeaderCart></div>
                 <div ><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
                 </div>
                 <div>
                 
-                
+                <br/>
+                <br/>
                 </div>
                 <div className="row" >
-                 
-                <MainCart onAdd={onAdd} products ={products}></MainCart>
+                 <center><MainCart onAdd={onAdd} products ={products}></MainCart></center>
+                
                 
                 
                 

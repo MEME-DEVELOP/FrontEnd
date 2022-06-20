@@ -6,8 +6,8 @@ export default function MainCart(props){
     return(
 
         <main className="row">
- <h2>Products</h2>
-      <div className="row">
+ 
+      <div className="row center" >
         {products.map((product) => (
           <Product key={product.idproducto} product={product} onAdd={onAdd}></Product>
         ))}
