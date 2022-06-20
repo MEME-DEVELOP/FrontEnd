@@ -73,7 +73,7 @@ const Pedidos = ()  => {
     })
 };
     // 
-      
+    console.log(products) 
         // const { products } = data;
         /*const [products, setProducts] = useState([])
         const [isLoading, setLoading] = useState(true)
