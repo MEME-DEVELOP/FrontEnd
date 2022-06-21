@@ -51,24 +51,27 @@ const InventarioCRUD =()=>{
     const [isLoading, setLoading] = useState(true)
     const [isEmpty, setisEmpty] = useState(true)
     const [open, setOpen] = useState(false);
+    const [openELIMINAR, setOpenELIMINAR] = useState(false)
    
     const handleClose = () => setOpen(false);
+
+    const handleCloseELIMIN = () => setOpenELIMINAR(false);
+
     const { user} = useAuth0();
 
     const [datos, setDatos] = useState({
-        idproducto: prodId,
+        idproducto: 0,
         nombre: "",
         preciounidad: 0,
         stock: 0,
         imagen: "",
-        idusuario: userActID
+        idusuario: 0
     });
 
     useEffect(() => { //
-        getProducts();
         idProducto();
-        
-    }, []);
+        getProducts();
+    });
     
     const handleInputChange= (event) => {
         
@@ -85,8 +88,6 @@ const InventarioCRUD =()=>{
         setProdId(data)
 
         
-        setDatos({...datos,
-            idproducto: prodId})
         
     }
 
@@ -94,30 +95,24 @@ const InventarioCRUD =()=>{
         setDatos({...datos,
             idproducto: prodId,
             idusuario: userActID})
-
-
-       
         setOpen(true)
         
     };
 
     function handleRemove(id){
-        const newList = products.filter((item) => item.idproducto !== id);
-        setProducts(newList);
         deletProduct(id);
-        getProducts();
-        idProducto();
     }
 
     const deletProduct = async(idDelProducto) =>{
-        await deleteProductbyId(idDelProducto)
+        deleteProductbyId(idDelProducto)
+        setOpenELIMINAR(true)
     } 
 
     const getProducts = async() => {
         var x;
         await APIgetIdByEmail(user.email).then(result =>{
             x = result
-            setUserActID(x)
+            setUserActID(result)
         })
         await APIgetProductsbyID(x).then(result =>{
             if (result === undefined){
@@ -133,24 +128,32 @@ const InventarioCRUD =()=>{
         
     };
     
-    const postingProduct = async() =>{
-        await postProduct(datos)
-        await setDatos({...datos,
+    const postingProduct = async(d) =>{
+        setDatos({...datos,
             nombre: "",
             preciounidad: 0,
             stock: 0,
             imagen: ""
            })
-        await  idProducto();
+        
+        await postProduct(d)
     } 
 
     const handleSubmit= (event) => {
         
         if(datos.idproducto === 0 ||  datos.nombre === "" || datos.preciounidad === 0 || datos.stock === 0 || datos.idusuario === 0){
             alert("PORFAVOR RELLENA TODOS LOS CAMPOS")
-            console.log(datos)
+            
         }else{
-            postingProduct();
+            let d = datos;
+            setDatos({...datos,
+                nombre: "",
+                preciounidad: 0,
+                stock: 0,
+                imagen: ""
+            })
+
+            postingProduct(d);
             setOpen(false);
             getProducts();
 
@@ -256,7 +259,7 @@ const InventarioCRUD =()=>{
                         }}
                         variant="filled"
                         sx = {{width: 300}}
-                        onChange = {handleInputChange}
+                        
                         />
                         <TextField
                         required
@@ -311,7 +314,7 @@ const InventarioCRUD =()=>{
                         }}
                         variant="filled"
                         sx = {{width: 300}}
-                        onChange = {handleInputChange}
+                        
                         />
                     <Button variant="contained" onClick= {handleSubmit}>AGREGAR</Button>
                 </Stack>
@@ -319,8 +322,19 @@ const InventarioCRUD =()=>{
             </Box>
             </Modal>
 
-        </Box>
+            <Modal
+                open={openELIMINAR}
+                onClose={handleCloseELIMIN}
+                aria-labelledby="modal-modal-title">
+                <Box sx ={style}>
+                    <Typography id="modal-modal-title" variant="h5" component="h3">
+                        Tu producto ha sido Eliminado
+                </Typography>
+                </Box>
+            </Modal>
+            </Box>
 
+        
         
         );
 
