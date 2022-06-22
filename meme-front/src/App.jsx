@@ -11,6 +11,7 @@ import InventarioCRUD from './views/InventarioCRUD';
 //import ProtectedRoute from './components/ProtectedRoute';
 import Pedidos from './views/Pedidos';
 
+import Facturas from './views/Facturas';
 const App = ()  => {
 
   const { isLoading} = useAuth0();
@@ -28,6 +29,7 @@ const App = ()  => {
           <Route path = "/Productos" element = {<InventarioCRUD/>} />
           <Route path="/Pedidos" element={<Pedidos/>}/>
           
+          <Route path="/Facturas" element={<Facturas/>}/>          
         </Routes>
         
   );

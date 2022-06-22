@@ -48,6 +48,11 @@ const LeftNavBar = () =>{
         event.preventDefault();
         navigate("/Pedidos", { replace: true });
     }
+    
+    const handleFacturas = (event) =>{
+        event.preventDefault();
+        navigate("/Facturas", { replace: true });
+    }
 
     const handlePruebas =(event) => {
         event.preventDefault();
