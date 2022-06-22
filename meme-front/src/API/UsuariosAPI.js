@@ -57,3 +57,10 @@ export const postUser = async(data) =>{
             console.log("USUARIO RESGISTRADO")
         })
 }
+
+export const APIPutUser = async(id, data) => {
+    await axios.put("http://localhost:8000/UsuarioD/"+id+"/", data).then(resolve=>{
+        console.log("Usuario EDITADO")
+    })
+
+}
