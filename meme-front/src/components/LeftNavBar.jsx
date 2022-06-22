@@ -87,7 +87,7 @@ const LeftNavBar = () =>{
                 <Button variant = 'contained' onClick={handleInventario}>Inventario</Button>
                 <Button variant = "contained" onClick={handlePedidos} >Crear Factura</Button>
                 <Button variant = "contained" > ver Factura</Button>
-                <Button variant = "contained" onClick={handlePruebas}> PRUEBAS</Button>
+                
             </Stack>
             
             <div class = 'position-absolute bottom-0 start-0 m-4'>
