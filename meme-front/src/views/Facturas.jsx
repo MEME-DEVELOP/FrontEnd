@@ -14,11 +14,15 @@ import { Button, Stack, Typography, Grid } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import "./InventarioCRUD.css";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+
+import DetailsIcon from '@mui/icons-material/Receipt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Avatar from '@mui/material/Avatar';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import { deleteProductbyId } from "../API/ProductosAPI";
+import { deleteFacturabyId } from "../API/FacturaAPI";
+
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from "react-router-dom";
@@ -50,6 +54,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const Facturas =()=>{
 
     const [products, setProducts] = useState([])
+    const [facturas, setFacturas] = useState([])
     const [registros, setRegistros] = useState([])
     const [prodId, setProdId] = useState(0);
     const [userActID, setUserActID] = useState(0);
@@ -76,6 +81,8 @@ const Facturas =()=>{
     useEffect(() => { //
         idFactura();
         getFacturas();
+        getRegistros();
+        getProducts();
     });
     
     const handleInputChange= (event) => {
@@ -108,11 +115,11 @@ const Facturas =()=>{
         navigate("/Pedidos", { replace: true });
     }
     function handleRemove(id){
-        deletProduct(id);
+        deleteFactura(id);
     }
 
-    const deletProduct = async(idDelProducto) =>{
-        deleteProductbyId(idDelProducto)
+    const deleteFactura = async(idDeFactura) =>{
+        deleteFacturabyId(idDeFactura)
         setOpenELIMINAR(true)
     } 
 
@@ -128,7 +135,7 @@ const Facturas =()=>{
             }else{
                 setisEmpty(true)
             }
-            setProducts(result)
+            setFacturas(result)
             setLoading(false)
             
         })
@@ -153,7 +160,29 @@ const Facturas =()=>{
         })
 
         
-    };   
+    }; 
+
+    const getProducts = async() => {
+        let x = 0
+        await APIgetIdByEmail(user.email).then(result =>{
+            x = result
+            setUserActID(x)
+            setDatos({...datos,
+                idusuario: userActID})
+        })
+        
+        await APIgetProductsbyID(x).then(result =>{
+            if (result === undefined){
+                setisEmpty(false)
+            }else{
+                setisEmpty(true)
+            }
+            setProducts(result)
+            setLoading(false)
+            setDatos({...datos,
+                idusuario: userActID})
+        })
+    };    
     const postingProduct = async(d) =>{
         setDatos({...datos,
             nombre: "",
@@ -222,7 +251,7 @@ const Facturas =()=>{
                     </Grid>
                     <div className="contain">
                         {
-                            isEmpty && products.map((it) => (
+                            isEmpty && facturas.map((it) => (
                                 <Paper key={it.idfactura} elevation={6} sx = {{width: 200, height: 250}}> 
                                     <Stack spacing = {1}>
                                             <Typography variant="h5" sx={{alignSelf:"center"}} >
@@ -232,25 +261,36 @@ const Facturas =()=>{
                                             <Avatar src = {it.imagen} sx={{ width: 100, height: 100, alignSelf:"center" }} />
                                     
                                             <Typography variant="h7" sx={{alignSelf:"center"}} >
-                                                P/U: {it.idusuario}
+                                                Identificación usuario: {it.idusuario}
                                             </Typography>
                                             
                                             <Typography variant="h7" sx={{alignSelf:"center"}} >
-                                                Stock: {it.fecha}
+                                                Fecha factura: {it.fecha}
                                             </Typography>
+                                            {/* {registros.map((it) => (
+                                                return (
+                                                    <tr key={item.id}>
+                                                    <td>{item}</td>
+                                                    </tr>
+                                                    );    
+                                            ))} */}
+
+                                            
                                         <Grid container spacing = {1}>
-                                        <Grid item xs = {5}>
-                                            <Button size ="medium" variant= "outlined" startIcon={<ModeEditIcon /> }></Button>
+                                        <Grid item xs = {9}>
+                                            <Button size ="small" variant= "outlined" startIcon={<DetailsIcon /> }> Detalles </Button>
                                             
                                         </Grid>
                                         <Grid item xs = {5}>
                                             
-                                            <Button  size ="medium" variant= "contained" color = "error" startIcon = {<DeleteIcon />} onClick = {()=>handleRemove(it.idfactura)}></Button>
+                                            {/* <Button  size ="medium" variant= "contained" color = "error" startIcon = {<DeleteIcon />} onClick = {()=>handleRemove(it.idfactura)}></Button> */}
                                         </Grid>
                                         </Grid>
                                     </Stack>
                                 </Paper>
                             ))
+
+
                         
                         
                         }

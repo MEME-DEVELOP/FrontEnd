@@ -39,7 +39,9 @@ export const APIgetFacturabyID = async(ID) =>{
  };
 
 
-
+export const deleteFacturabyId = async(id) =>{
+    await axios.delete("http://localhost:8000/FacturaD/"+id).then(resolve=>{console.log("Factura Eliminado")})
+}
  export const postFactura= async(data) =>{
      console.log(data)
     await axios.post("http://localhost:8000/FacturaD/", data)
