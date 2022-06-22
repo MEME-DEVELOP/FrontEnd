@@ -1,7 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import {APIgetIdByEmail} from "../API/UsuariosAPI";
-import { APIgetProductsbyID, getProductID, postProduct, APIPutProduct} from "../API/ProductosAPI";
+import { APIgetProductsbyID, getProductID, postProduct} from "../API/ProductosAPI";
+import { APIgetFacturabyID, getFacturaID, postFactura} from "../API/FacturaAPI";
+import { APIgetregistrobyID, getregistroID, postRegistro} from "../API/RegistroAPI";
+
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import LeftNavBar from "../components/LeftNavBar";
@@ -11,13 +14,18 @@ import { Button, Stack, Typography, Grid } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import "./InventarioCRUD.css";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+
+import DetailsIcon from '@mui/icons-material/Receipt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Avatar from '@mui/material/Avatar';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import { deleteProductbyId } from "../API/ProductosAPI";
+import { deleteFacturabyId } from "../API/FacturaAPI";
+
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from "react-router-dom";
 
 const style = {
     position: 'absolute',
@@ -43,49 +51,42 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-const InventarioCRUD =()=>{
+const Facturas =()=>{
 
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([])
+    const [facturas, setFacturas] = useState([])
+    const [registros, setRegistros] = useState([])
+    const [cfacturas, setCFacturas] = useState({cantidad:'', constot:'',nombre:''});
     const [prodId, setProdId] = useState(0);
     const [userActID, setUserActID] = useState(0);
-    const [isLoading, setLoading] = useState(true);
-    const [isEmpty, setisEmpty] = useState(true);
+    const [isLoading, setLoading] = useState(true)
+    const [isEmpty, setisEmpty] = useState(true)
     const [open, setOpen] = useState(false);
-    const [openELIMINAR, setOpenELIMINAR] = useState(false);
-    const [openPUT, setOpenPUT] = useState(false);
-
-    const [actualPRODUCT, setActualPRODUCT] = useState({
-        idproducto: 0,
-        nombre: "",
-        preciounidad: 0,
-        stock: 0,
-        imagen: "",
-        idusuario: 0
-    });
+    const [openELIMINAR, setOpenELIMINAR] = useState(false)
    
-    const [datos, setDatos] = useState({
-        idproducto: 0,
-        nombre: "",
-        preciounidad: 0,
-        stock: 0,
-        imagen: "",
-        idusuario: 0
-    });
-
     const handleClose = () => setOpen(false);
-
+    let navigate = useNavigate();
     const handleCloseELIMIN = () => setOpenELIMINAR(false);
-
-    const handleClosePUT = () => setOpenPUT(false);
 
     const { user} = useAuth0();
 
-    
+    const [datos, setDatos] = useState({
+        idfactura: 0,
+        nombre: "",
+        idusuario: 0,
+        stock: 0,
+        imagen: "",
+        idusuario: 0
+    });
 
-    useEffect(() => { 
-        idProducto();
+    useEffect(() => { //
+        idFactura();
+        getFacturas();
+        getRegistros();
         getProducts();
-    }, [actualPRODUCT, datos ]);
+    });
+
+    
     
     const handleInputChange= (event) => {
         
@@ -96,17 +97,8 @@ const InventarioCRUD =()=>{
       
     }
 
-    const handleInputChangEDIT= (event) => {
-        
-        setActualPRODUCT({
-            ...actualPRODUCT,
-            [event.target.name]:event.target.value
-        })
-      
-    }
-
-    const idProducto = async() =>{
-        let data = await getProductID();
+    const idFactura = async() =>{
+        let data = await getFacturaID();
         
         setProdId(data)
 
@@ -116,45 +108,82 @@ const InventarioCRUD =()=>{
 
     const handleOpen = () => {
         setDatos({...datos,
-            idproducto: prodId,
+            idfactura: prodId,
             idusuario: userActID})
         setOpen(true)
         
     };
-
-    const handleOpenEDIT = (idP, Nomb, precio, st, img) => {
-        let x = precio.replace('$', '').replace(',', '')
-        x = x.slice(0, -3)
-        
-
-        setActualPRODUCT({...actualPRODUCT,
-            idproducto: idP,
-            nombre: Nomb,
-            preciounidad: x,
-            stock: st,
-            imagen: img,
-            idusuario: userActID})
-
-        setOpenPUT(true)
-        
-    };
-
+    const handlePedidos = (event) =>{
+        event.preventDefault();
+        navigate("/Pedidos", { replace: true });
+    }
     function handleRemove(id){
-        deletProduct(id);
+        deleteFactura(id);
     }
 
-    const deletProduct = async(idDelProducto) =>{
-        deleteProductbyId(idDelProducto)
-        getProducts();
+    const deleteFactura = async(idDeFactura) =>{
+        deleteFacturabyId(idDeFactura)
         setOpenELIMINAR(true)
     } 
-
-    const getProducts = async() => {
+    const detallesFactura = async () => {
+        const dataOne = await axios.post('http://localhost:8000/ProductoD/?idusuario='+APIgetIdByEmail(user.email), , {
+          headers: { 'Content-Type': 'text/plain' },
+        });
+        const dataTow = await axios.post('http://localhost:8000/FacturaD/'+APIgetIdByEmail(user.email), , {
+          headers: { 'Content-Type': 'text/plain' },
+        });
+        setFacturas({ dataOne, dataTow });
+      };
+      fetchData();
+    }, []);
+    const getFacturas = async() => {
         var x;
         await APIgetIdByEmail(user.email).then(result =>{
             x = result
             setUserActID(result)
         })
+        await APIgetFacturabyID(x).then(result =>{
+            if (result === undefined){
+                setisEmpty(false)
+            }else{
+                setisEmpty(true)
+            }
+            setFacturas(result)
+            setLoading(false)
+            
+        })
+
+        
+    };
+    const getRegistros = async() => {
+        var x;
+        await APIgetIdByEmail(user.email).then(result =>{
+            x = result
+            setUserActID(result)
+        })
+        await APIgetregistrobyID(x).then(result =>{
+            if (result === undefined){
+                setisEmpty(false)
+            }else{
+                setisEmpty(true)
+            }
+            setRegistros(result)
+            setLoading(false)
+            
+        })
+
+        
+    }; 
+
+    const getProducts = async() => {
+        let x = 0
+        await APIgetIdByEmail(user.email).then(result =>{
+            x = result
+            setUserActID(x)
+            setDatos({...datos,
+                idusuario: userActID})
+        })
+        
         await APIgetProductsbyID(x).then(result =>{
             if (result === undefined){
                 setisEmpty(false)
@@ -163,16 +192,14 @@ const InventarioCRUD =()=>{
             }
             setProducts(result)
             setLoading(false)
-            
+            setDatos({...datos,
+                idusuario: userActID})
         })
-
-        
-    };
-    
+    };    
     const postingProduct = async(d) =>{
         setDatos({...datos,
             nombre: "",
-            preciounidad: 0,
+            idusuario: 0,
             stock: 0,
             imagen: ""
            })
@@ -182,32 +209,28 @@ const InventarioCRUD =()=>{
 
     const handleSubmit= (event) => {
         
-        if(datos.idproducto === 0 ||  datos.nombre === "" || datos.preciounidad === 0 || datos.stock === 0 || datos.idusuario === 0){
+        if(datos.idfactura === 0 ||  datos.nombre === "" || datos.idusuario === 0 || datos.stock === 0 || datos.idusuario === 0){
             alert("PORFAVOR RELLENA TODOS LOS CAMPOS")
             
         }else{
             let d = datos;
             setDatos({...datos,
                 nombre: "",
-                preciounidad: 0,
+                idusuario: 0,
                 stock: 0,
                 imagen: ""
             })
 
             postingProduct(d);
             setOpen(false);
-            getProducts();
+            getFacturas();
+            getRegistros();
 
 
             
         }
     } 
 
-    const handleEdit = (event) =>{
-        APIPutProduct(actualPRODUCT.idproducto, actualPRODUCT)
-        getProducts();
-        handleClosePUT()
-    }
 
     if(isLoading){
         return <Loading />
@@ -223,25 +246,25 @@ const InventarioCRUD =()=>{
                     <Grid container sx={{alignSelf:"center"}}>
                         <Grid item xs={9}sx={{alignSelf:"center"}}>
                         <Typography variant="h4" sx={{color: blue[700],alignSelf:"center"}} >
-                            INVENTARIO
+                            FACTURAS
                         </Typography>
                         <br/>
                         <Typography variant="h6" sx={{alignSelf:"center"}} >
-                            Aqui se despliegan todos los productos que tienes almacenados en tu inventario
+                        Aqui se despliegan todas las facturas que tienes almacenados en tu inventario
                             <br></br>
-                            A tu derecha tendras un boton para agregar mas productos a tu inventario
+                            A tu derecha tendrás un botón para crear una factura
                         </Typography>
                         </Grid>
                         <Grid item xs={3} sx={{alignSelf:"center"}}>
-                        <Fab variant="extended" color="primary" aria-label="add" onClick={handleOpen}>
+                        <Fab variant="extended" color="primary" aria-label="add" onClick={handlePedidos}>
                             <AddIcon  sx={{ mr: 1 }} />
-                            Agregar
+                            Nueva factura
                         </Fab>
                         </Grid>
                     </Grid>
                     <div className="contain">
                         {
-                            isEmpty && products.map((it) => (
+                            isEmpty && facturas.map((it) => (
                                 <Paper key={it.idfactura} elevation={6} sx = {{width: 200, height: 250}}> 
                                     <Stack spacing = {1}>
                                             <Typography variant="h5" sx={{alignSelf:"center"}} >
@@ -251,25 +274,36 @@ const InventarioCRUD =()=>{
                                             <Avatar src = {it.imagen} sx={{ width: 100, height: 100, alignSelf:"center" }} />
                                     
                                             <Typography variant="h7" sx={{alignSelf:"center"}} >
-                                                P/U: {it.fecha}
+                                                Identificación usuario: {it.idusuario}
                                             </Typography>
                                             
                                             <Typography variant="h7" sx={{alignSelf:"center"}} >
-                                                Stock: {it.idusuario}
+                                                Fecha factura: {it.fecha}
                                             </Typography>
+                                            {/* {registros.map((it) => (
+                                                return (
+                                                    <tr key={item.id}>
+                                                    <td>{item}</td>
+                                                    </tr>
+                                                    );    
+                                            ))} */}
+
+                                            
                                         <Grid container spacing = {1}>
-                                        <Grid item xs = {5}>
-                                            <Button size ="medium" variant= "outlined" startIcon={<ModeEditIcon /> } onClick = {() => handleOpenEDIT(it.idproducto, it.nombre, it.preciounidad, it.stock, it.imagen)}></Button>
+                                        <Grid item xs = {9}>
+                                            <Button size ="small" variant= "outlined" startIcon={<DetailsIcon /> }> Detalles </Button>
                                             
                                         </Grid>
                                         <Grid item xs = {5}>
                                             
-                                            <Button  size ="medium" variant= "contained" color = "error" startIcon = {<DeleteIcon />} onClick = {()=>handleRemove(it.idproducto)}></Button>
+                                            {/* <Button  size ="medium" variant= "contained" color = "error" startIcon = {<DeleteIcon />} onClick = {()=>handleRemove(it.idfactura)}></Button> */}
                                         </Grid>
                                         </Grid>
                                     </Stack>
                                 </Paper>
                             ))
+
+
                         
                         
                         }
@@ -296,9 +330,9 @@ const InventarioCRUD =()=>{
                 <Stack spacing={2}>
                     <TextField
                         disabled
-                        name="idproducto"
+                        name="idfactura"
                         label="Id del Producto"
-                        value = {datos.idproducto}
+                        value = {datos.idfactura}
                         type="number"
                         InputLabelProps={{
                             shrink: true,
@@ -362,7 +396,7 @@ const InventarioCRUD =()=>{
                         sx = {{width: 300}}
                         
                         />
-                    <Button variant="contained" onClick= {handleSubmit}>AGREGAR</Button>
+                    <Button variant="contained" onClick= {handlePedidos}>Nueva factura</Button>
                 </Stack>
 
             </Box>
@@ -378,100 +412,11 @@ const InventarioCRUD =()=>{
                 </Typography>
                 </Box>
             </Modal>
-            
-
-            <Modal
-            open={openPUT}
-            onClose={handleClosePUT}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description">
-                <Box sx ={style}>
-                <Typography id="modal-modal-title" variant="h5" component="h2">
-                Modifar el producto {actualPRODUCT.nombre}
-                </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Cambia los datos que desees
-                </Typography>
-                <Stack spacing={2}>
-                    <TextField
-                        disabled
-                        name="idproducto"
-                        label="Id del Producto"
-                        value = {actualPRODUCT.idproducto}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="filled"
-                        sx = {{width: 300}}
-                        
-                        />
-                        <TextField
-                        required
-                        name="nombre"
-                        label="Nombre del Producto"
-                        value = {actualPRODUCT.nombre}
-                        variant="filled"
-                        sx = {{width: 300}}
-                        onChange = {handleInputChangEDIT}
-                        />
-                        <TextField
-                        required
-                        name="preciounidad"
-                        label="Precio Unidad"
-                        type="number"
-                        value = {actualPRODUCT.preciounidad}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="filled"
-                        sx = {{width: 300}}
-                        onChange = {handleInputChangEDIT}
-                        />
-                        <TextField
-                        required
-                        name="stock"
-                        label="Stock"
-                        type="number"
-                        value = {actualPRODUCT.stock}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="filled"
-                        sx = {{width: 300}}
-                        onChange = {handleInputChangEDIT}
-                        />
-                        <TextField
-                        required
-                        name="imagen"
-                        label="Imagen"
-                        value = {actualPRODUCT.imagen}
-                        variant="filled"
-                        sx = {{width: 300}}
-                        onChange = {handleInputChangEDIT}
-                        />
-                        <TextField
-                        disabled
-                        name="idusuario"
-                        label="IdUser"
-                        value = {actualPRODUCT.idusuario}
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="filled"
-                        sx = {{width: 300}}
-                        
-                        />
-                    <Button variant="contained" onClick= {handleEdit}>EDITAR</Button>
-                </Stack>
-
-                </Box>
-            </Modal>
-        
             </Box>
+
+        
         
         );
 
 };
-export default InventarioCRUD;
+export default Facturas;
