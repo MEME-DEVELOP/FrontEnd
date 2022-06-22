@@ -44,15 +44,18 @@ export default function BasketCart(props){
             <div className="row">
               <div className="col-2">Precio de productos</div>
               <div className="col-1 text-right">${Number(itemsPrice)}</div>
+              
             </div>
             <div className="row">
               <div className="col-2">Impuesto (IVA 19%)</div>
               <div className="col-1 text-right">${Number(taxPrice)}</div>
+              
             </div>
             <div className="row">
               <div className="col-2">Envío</div>
               <div className="col-1 text-right">
-                ${shippingPrice}
+                ${Number(shippingPrice)}
+                
               </div>
             </div>
 
@@ -61,10 +64,12 @@ export default function BasketCart(props){
                 <strong>Total</strong>
               </div>
               <div className="col-1 text-right">
-                <strong>${Number(totalPrice)}</strong>
+                <strong>${totalPrice}</strong>
+                
                 
               </div>
             </div>
+
             <hr />
             <div className="row">
               <button  class="btn btn-info" onClick={() => alert("Hola")}>
