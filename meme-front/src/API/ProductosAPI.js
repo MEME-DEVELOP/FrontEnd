@@ -1,5 +1,4 @@
 import axios from 'axios';
-import dataTmp from '../dataTmp';
 
 export const APIgetAllProducts = async () => {
     let productos = [];
@@ -13,8 +12,9 @@ export const APIgetAllProducts = async () => {
 
 export const getProductID = async() => {
     let data = await APIgetAllProducts();
-    return data[data.length -1].idproducto + 1;
-
+    const fil = data.sort((a,b) => a.idproducto-b.idproducto)
+    
+    return fil[fil.length -1].idproducto + 1;
 }
 
 
@@ -49,4 +49,11 @@ export const postProduct = async(data) =>{
             
              console.log("Producto RESGISTRADO")
          })
+}
+
+export const APIPutProduct = async(id, data) => {
+    await axios.put("http://localhost:8000/ProductoD/"+id+"/", data).then(resolve=>{
+        console.log("Producto EDITADO")
+    })
+
 }
