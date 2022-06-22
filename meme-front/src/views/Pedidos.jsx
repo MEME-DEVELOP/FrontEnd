@@ -131,9 +131,11 @@ const Pedidos = ()  => {
                     <LeftNavBar />
                 
               </Grid>
+              
               <Grid item md={10} >
-                <Item>
-                <div class="row ">
+                
+                <Item >
+                <div class="row " >
                 {/* <div id="main"><HeaderCart countCartItems={cartItems.length}></HeaderCart></div> */}
                 <div ><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
                 </div>
@@ -151,6 +153,7 @@ const Pedidos = ()  => {
                 </div>
                 </Item>
               </Grid>
+              
             </Grid>
         </Box>
             
