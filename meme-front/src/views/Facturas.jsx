@@ -79,6 +79,7 @@ const Facturas =()=>{
             }else{
                 setisEmpty(true)
             }
+            
             setFacturas(result)
             setLoading(false)
             
@@ -142,7 +143,7 @@ const Facturas =()=>{
                         {
                             
                             isEmpty && facturas.map((it, indice) => (
-                                <div class = "shadow-lg rounded-3 m-2 p-4 d-flex flex-wrap gap-2 w-100" key={it.idfactura}>
+                                <div class = "shadow-lg rounded-3 m-2 p-4 d-flex flex-wrap gap-2 w-100 h-25" key={it.idfactura}>
                                     <div class =" ">
                                             <Typography variant="h5" sx={{alignSelf:"center"}} >
                                                 Factura #{indice+ 1}

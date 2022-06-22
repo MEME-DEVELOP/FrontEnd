@@ -23,7 +23,7 @@ export const APIgetFacturabyID = async(ID) =>{
       let factura = [];
       await axios.get('http://localhost:8000/FacturaD/', {
           params: {
-             idregister: ID
+            idusuario: ID
           }
       }).then(result=>{
             console.log(ID)
