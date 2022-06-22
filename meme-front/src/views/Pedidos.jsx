@@ -74,30 +74,7 @@ const Pedidos = ()  => {
 };
     // 
     console.log(products) 
-        // const { products } = data;
-        /*const [products, setProducts] = useState([])
-        const [isLoading, setLoading] = useState(true)
-    
-        const { user} = useAuth0();
-    
-        useEffect(() => {
-            getProducts();
-           
-        }, []);
-    
-        const getProducts = async() => {
-          let x = 0
-          await APIgetIdByEmail(user.email).then(result =>{
-              x = result
-          })
-          await APIgetProductsbyID(x).then(result =>{
-              
-              setProducts(result)
-              setLoading(false)
-          })
-      };
-
-      */
+   
         const [cartItems, setCartItems] = useState([]);
         const onAdd = (product) => {
           const exist = cartItems.find((x) => x.idproducto === product.idproducto);
@@ -123,6 +100,12 @@ const Pedidos = ()  => {
             );
           }
         };
+
+
+        const PedidosPost = () => {
+          alert("Holi");
+        };
+
         return (
             <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >
             <Grid container spacing={2} className = 'hola' >
@@ -137,7 +120,8 @@ const Pedidos = ()  => {
                 <Item >
                 <div class="row " >
                 {/* <div id="main"><HeaderCart countCartItems={cartItems.length}></HeaderCart></div> */}
-                <div ><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
+                <BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart>
+                <MainCart onAdd={onAdd} products ={products}></MainCart>
                 </div>
                 <div>
                 
@@ -145,7 +129,7 @@ const Pedidos = ()  => {
                 <br/>
                 </div>
                 <div className="row" >
-                 <center><MainCart onAdd={onAdd} products ={products}></MainCart></center>
+                 
                 
                 
                 
