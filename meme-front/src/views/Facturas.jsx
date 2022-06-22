@@ -2,6 +2,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import {APIgetIdByEmail} from "../API/UsuariosAPI";
 import { APIgetProductsbyID, getProductID, postProduct} from "../API/ProductosAPI";
+import { APIgetFacturabyID, getFacturaID, postFactura} from "../API/FacturaAPI";
+import { APIgetregistrobyID, getregistroID, postRegistro} from "../API/RegistroAPI";
+
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import LeftNavBar from "../components/LeftNavBar";
@@ -18,6 +21,7 @@ import Fab from '@mui/material/Fab';
 import { deleteProductbyId } from "../API/ProductosAPI";
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from "react-router-dom";
 
 const style = {
     position: 'absolute',
@@ -43,80 +47,82 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-const InventarioCRUD =()=>{
+const Facturas =()=>{
 
     const [products, setProducts] = useState([])
+    const [registros, setRegistros] = useState([])
     const [prodId, setProdId] = useState(0);
     const [userActID, setUserActID] = useState(0);
     const [isLoading, setLoading] = useState(true)
     const [isEmpty, setisEmpty] = useState(true)
     const [open, setOpen] = useState(false);
+    const [openELIMINAR, setOpenELIMINAR] = useState(false)
    
     const handleClose = () => setOpen(false);
+    let navigate = useNavigate();
+    const handleCloseELIMIN = () => setOpenELIMINAR(false);
+
     const { user} = useAuth0();
 
     const [datos, setDatos] = useState({
-        idproducto: prodId,
+        idfactura: 0,
         nombre: "",
-        preciounidad: 0,
+        idusuario: 0,
         stock: 0,
         imagen: "",
-        idusuario: userActID
+        idusuario: 0
     });
 
     useEffect(() => { //
-        getProducts();
-        idProducto();
-    }, []);
+        idFactura();
+        getFacturas();
+    });
     
     const handleInputChange= (event) => {
         
         setDatos({
             ...datos,
-            [event.target.name] : event.target.value
+            [event.target.name]:event.target.value
         })
-        setDatos({...datos,
-            idusuario: userActID})
+      
     }
 
-    const idProducto = async() =>{
-        let data = await getProductID();
+    const idFactura = async() =>{
+        let data = await getFacturaID();
+        
         setProdId(data)
-        setDatos({...datos,
-            idproducto: prodId})
-            
-        setDatos({...datos,
-            idusuario: userActID})
+
+        
+        
     }
 
     const handleOpen = () => {
         setDatos({...datos,
+            idfactura: prodId,
             idusuario: userActID})
-        idProducto()
         setOpen(true)
         
     };
-
+    const handlePedidos = (event) =>{
+        event.preventDefault();
+        navigate("/Pedidos", { replace: true });
+    }
     function handleRemove(id){
-        const newList = products.filter((item) => item.idproducto !== id);
-        setProducts(newList);
         deletProduct(id);
     }
 
     const deletProduct = async(idDelProducto) =>{
-        await deleteProductbyId(idDelProducto)
+        deleteProductbyId(idDelProducto)
+        setOpenELIMINAR(true)
     } 
 
-    const getProducts = async() => {
-        let x = 0
+    const getFacturas = async() => {
+        var x;
         await APIgetIdByEmail(user.email).then(result =>{
             x = result
-            setUserActID(x)
-            setDatos({...datos,
-                idusuario: userActID})
+            setUserActID(result)
         })
-        
-        await APIgetProductsbyID(x).then(result =>{
+        await APIgetFacturabyID(x).then(result =>{
             if (result === undefined){
                 setisEmpty(false)
             }else{
@@ -124,25 +130,61 @@ const InventarioCRUD =()=>{
             }
             setProducts(result)
             setLoading(false)
-            setDatos({...datos,
-                idusuario: userActID})
+            
         })
-    };
-    
-    const postingProduct = async() =>{
-        await postProduct(datos)
+
         
+    };
+    const getRegistros = async() => {
+        var x;
+        await APIgetIdByEmail(user.email).then(result =>{
+            x = result
+            setUserActID(result)
+        })
+        await APIgetregistrobyID(x).then(result =>{
+            if (result === undefined){
+                setisEmpty(false)
+            }else{
+                setisEmpty(true)
+            }
+            setRegistros(result)
+            setLoading(false)
+            
+        })
+
+        
+    };   
+    const postingProduct = async(d) =>{
+        setDatos({...datos,
+            nombre: "",
+            idusuario: 0,
+            stock: 0,
+            imagen: ""
+           })
+        
+        await postProduct(d)
     } 
 
     const handleSubmit= (event) => {
-        if(datos.idproducto === 0 ||  datos.nombre === "" || datos.preciounidad === 0 || datos.stock === 0 || datos.idusuario === 0){
+        
+        if(datos.idfactura === 0 ||  datos.nombre === "" || datos.idusuario === 0 || datos.stock === 0 || datos.idusuario === 0){
             alert("PORFAVOR RELLENA TODOS LOS CAMPOS")
-            getProducts();
             
         }else{
-            postingProduct()
-            setOpen(false)
-            getProducts();
+            let d = datos;
+            setDatos({...datos,
+                nombre: "",
+                idusuario: 0,
+                stock: 0,
+                imagen: ""
+            })
+
+            postingProduct(d);
+            setOpen(false);
+            getFacturas();
+            getRegistros();
+
+
             
         }
     } 
@@ -162,19 +204,19 @@ const InventarioCRUD =()=>{
                     <Grid container sx={{alignSelf:"center"}}>
                         <Grid item xs={9}sx={{alignSelf:"center"}}>
                         <Typography variant="h4" sx={{color: blue[700],alignSelf:"center"}} >
-                            INVENTARIO
+                            FACTURAS
                         </Typography>
                         <br/>
                         <Typography variant="h6" sx={{alignSelf:"center"}} >
-                            Aqui se despliegan todos los productos que tienes almacenados en tu inventario
+                        Aqui se despliegan todas las facturas que tienes almacenados en tu inventario
                             <br></br>
-                            A tu derecha tendras un boton para agregar mas productos a tu inventario
+                            A tu derecha tendrás un botón para crear una factura
                         </Typography>
                         </Grid>
                         <Grid item xs={3} sx={{alignSelf:"center"}}>
-                        <Fab variant="extended" color="primary" aria-label="add" onClick={handleOpen}>
+                        <Fab variant="extended" color="primary" aria-label="add" onClick={handlePedidos}>
                             <AddIcon  sx={{ mr: 1 }} />
-                            Agregar
+                            Nueva factura
                         </Fab>
                         </Grid>
                     </Grid>
@@ -190,11 +232,11 @@ const InventarioCRUD =()=>{
                                             <Avatar src = {it.imagen} sx={{ width: 100, height: 100, alignSelf:"center" }} />
                                     
                                             <Typography variant="h7" sx={{alignSelf:"center"}} >
-                                                P/U: {it.fecha}
+                                                P/U: {it.idusuario}
                                             </Typography>
                                             
                                             <Typography variant="h7" sx={{alignSelf:"center"}} >
-                                                Stock: {it.idusuario}
+                                                Stock: {it.fecha}
                                             </Typography>
                                         <Grid container spacing = {1}>
                                         <Grid item xs = {5}>
@@ -203,7 +245,7 @@ const InventarioCRUD =()=>{
                                         </Grid>
                                         <Grid item xs = {5}>
                                             
-                                            <Button  size ="medium" variant= "contained" color = "error" startIcon = {<DeleteIcon />} onClick = {()=>handleRemove(it.idproducto)}></Button>
+                                            <Button  size ="medium" variant= "contained" color = "error" startIcon = {<DeleteIcon />} onClick = {()=>handleRemove(it.idfactura)}></Button>
                                         </Grid>
                                         </Grid>
                                     </Stack>
@@ -235,16 +277,16 @@ const InventarioCRUD =()=>{
                 <Stack spacing={2}>
                     <TextField
                         disabled
-                        name="idproducto"
+                        name="idfactura"
                         label="Id del Producto"
-                        value = {datos.idproducto}
+                        value = {datos.idfactura}
                         type="number"
                         InputLabelProps={{
                             shrink: true,
                         }}
                         variant="filled"
                         sx = {{width: 300}}
-                        onChange = {handleInputChange}
+                        
                         />
                         <TextField
                         required
@@ -292,25 +334,36 @@ const InventarioCRUD =()=>{
                         disabled
                         name="idusuario"
                         label="IdUser"
-                        value = {userActID}
+                        value = {datos.idusuario}
                         type="number"
                         InputLabelProps={{
                             shrink: true,
                         }}
                         variant="filled"
                         sx = {{width: 300}}
-                        onChange = {handleInputChange}
+                        
                         />
-                    <Button variant="contained" onClick= {handleSubmit}>AGREGAR</Button>
+                    <Button variant="contained" onClick= {handlePedidos}>Nueva factura</Button>
                 </Stack>
 
             </Box>
             </Modal>
 
-        </Box>
+            <Modal
+                open={openELIMINAR}
+                onClose={handleCloseELIMIN}
+                aria-labelledby="modal-modal-title">
+                <Box sx ={style}>
+                    <Typography id="modal-modal-title" variant="h5" component="h3">
+                        Tu producto ha sido Eliminado
+                </Typography>
+                </Box>
+            </Modal>
+            </Box>
 
+        
         
         );
 
 };
-export default InventarioCRUD;
+export default Facturas;

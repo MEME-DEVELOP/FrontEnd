@@ -48,6 +48,11 @@ const LeftNavBar = () =>{
         event.preventDefault();
         navigate("/Pedidos", { replace: true });
     }
+    
+    const handleFacturas = (event) =>{
+        event.preventDefault();
+        navigate("/Facturas", { replace: true });
+    }
 
     const handlePruebas =(event) => {
         event.preventDefault();
@@ -86,7 +91,7 @@ const LeftNavBar = () =>{
                          src = {userDatos.logo}></Avatar>
                 <Button variant = 'contained' onClick={handleInventario}>Inventario</Button>
                 <Button variant = "contained" onClick={handlePedidos} >Crear Factura</Button>
-                <Button variant = "contained" > ver Factura</Button>
+                <Button variant = "contained" onClick={handleFacturas}> ver Factura</Button>
                 <Button variant = "contained" onClick={handlePruebas}> PRUEBAS</Button>
             </Stack>
             

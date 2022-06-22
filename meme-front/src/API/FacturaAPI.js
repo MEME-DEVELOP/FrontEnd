@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const APIgetAllFactura= async () => {
     let factura = [];
-    await axios.get('http://localhost:8000/facturaD/').then(result=>{
+    await axios.get('http://localhost:8000/FacturaD/').then(result=>{
             factura = result.data
            
     }).catch(console.log);
@@ -12,8 +12,9 @@ export const APIgetAllFactura= async () => {
 
 export const getFacturaID = async() => {
     let data = await APIgetAllFactura();
-   
-    return data.length + 1;
+    const fil = data.sort((a,b) => a.idfactura-b.idfactura)
+    
+    return fil[fil.length -1].idfactura + 1;
 
 }
 
