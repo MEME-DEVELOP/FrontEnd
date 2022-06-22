@@ -125,6 +125,7 @@ const Facturas =()=>{
         deleteFacturabyId(idDeFactura)
         setOpenELIMINAR(true)
     } 
+    /*
     const detallesFactura = async () => {
         const dataOne = await axios.post('http://localhost:8000/ProductoD/?idusuario='+APIgetIdByEmail(user.email), , {
           headers: { 'Content-Type': 'text/plain' },
@@ -135,7 +136,8 @@ const Facturas =()=>{
         setFacturas({ dataOne, dataTow });
       };
       fetchData();
-    }, []);
+    };
+    */
     const getFacturas = async() => {
         var x;
         await APIgetIdByEmail(user.email).then(result =>{
