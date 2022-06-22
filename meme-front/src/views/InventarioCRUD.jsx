@@ -242,7 +242,7 @@ const InventarioCRUD =()=>{
                     <div className="contain">
                         {
                             isEmpty && products.map((it) => (
-                                <Paper key={it.idfactura} elevation={6} sx = {{width: 200, height: 250}}> 
+                                <Paper key={it.idproducto} elevation={6} sx = {{width: 200, height: 250}}> 
                                     <Stack spacing = {1}>
                                             <Typography variant="h5" sx={{alignSelf:"center"}} >
                                                 {it.nombre}
@@ -251,11 +251,11 @@ const InventarioCRUD =()=>{
                                             <Avatar src = {it.imagen} sx={{ width: 100, height: 100, alignSelf:"center" }} />
                                     
                                             <Typography variant="h7" sx={{alignSelf:"center"}} >
-                                                P/U: {it.fecha}
+                                                P/U: {it.preciounidad}
                                             </Typography>
                                             
                                             <Typography variant="h7" sx={{alignSelf:"center"}} >
-                                                Stock: {it.idusuario}
+                                                Stock: {it.stock}
                                             </Typography>
                                         <Grid container spacing = {1}>
                                         <Grid item xs = {5}>
