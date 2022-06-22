@@ -4,7 +4,10 @@ import React from 'react'
 
 export default function BasketCart(props){
     const { cartItems, onAdd, onRemove } = props;
-    const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.preciounidad, 0);
+    
+    const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.preciounidad.slice(1).replace(/\D/g,''), 0);
+    //alert(itemsPrice);
+    //debugger;
     const taxPrice = itemsPrice * 0.19;
     const shippingPrice = itemsPrice > 2000 ? 0 : 20;
     const totalPrice = itemsPrice + taxPrice + shippingPrice;
@@ -29,7 +32,8 @@ export default function BasketCart(props){
             </div>
 
             <div className="col-2 text-right">
-              {item.qty} x ${Number(item.preciounidad).toFixed(2)}
+              {item.qty} x ${Number(item.preciounidad.slice(1).replace(/\D/g,''))}
+              
             </div>
           </div>
         ))}

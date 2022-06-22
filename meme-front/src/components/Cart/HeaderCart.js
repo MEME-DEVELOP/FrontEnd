@@ -9,15 +9,9 @@ export default function HeaderCart(props){
             <header className ="row block2 center">
          <div>
    
-          <h1 className='whitetext'>Carrito de compras MEME</h1>
- 
-        
-      </div>
-      <div>
-        
-          <h1 className='whitetext'>Elementos{' '}</h1>
-          <br></br>
-            
+          
+          <h3 className='whitetext'>Elementos{' '}</h3>
+                     
             
           {props.countCartItems ? (
             <button className="badge">{props.countCartItems}</button>
@@ -28,7 +22,9 @@ export default function HeaderCart(props){
             <br></br>
             <br></br>
         {' '}
+ 
         
+                
       </div>
       
             </header>

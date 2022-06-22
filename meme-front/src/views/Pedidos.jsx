@@ -134,7 +134,7 @@ const Pedidos = ()  => {
               <Grid item md={10} >
                 <Item>
                 <div class="row">
-                <div id="main"><HeaderCart countCartItems={cartItems.length}></HeaderCart></div>
+                {/* <div id="main"><HeaderCart countCartItems={cartItems.length}></HeaderCart></div> */}
                 <div ><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
                 </div>
                 <div>
