@@ -50,3 +50,10 @@ export const postProduct = async(data) =>{
              console.log("Producto RESGISTRADO")
          })
 }
+
+export const APIPutProduct = async(id, data) => {
+    await axios.put("http://localhost:8000/ProductoD/"+id+"/", data).then(resolve=>{
+        console.log("Producto EDITADO")
+    })
+
+}

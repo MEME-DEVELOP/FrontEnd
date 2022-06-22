@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import {APIgetIdByEmail} from "../API/UsuariosAPI";
-import { APIgetProductsbyID, getProductID, postProduct} from "../API/ProductosAPI";
+import { APIgetProductsbyID, getProductID, postProduct, APIPutProduct} from "../API/ProductosAPI";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import LeftNavBar from "../components/LeftNavBar";
@@ -45,20 +45,24 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const InventarioCRUD =()=>{
 
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState([]);
     const [prodId, setProdId] = useState(0);
     const [userActID, setUserActID] = useState(0);
-    const [isLoading, setLoading] = useState(true)
-    const [isEmpty, setisEmpty] = useState(true)
+    const [isLoading, setLoading] = useState(true);
+    const [isEmpty, setisEmpty] = useState(true);
     const [open, setOpen] = useState(false);
-    const [openELIMINAR, setOpenELIMINAR] = useState(false)
+    const [openELIMINAR, setOpenELIMINAR] = useState(false);
+    const [openPUT, setOpenPUT] = useState(false);
+
+    const [actualPRODUCT, setActualPRODUCT] = useState({
+        idproducto: 0,
+        nombre: "",
+        preciounidad: 0,
+        stock: 0,
+        imagen: "",
+        idusuario: 0
+    });
    
-    const handleClose = () => setOpen(false);
-
-    const handleCloseELIMIN = () => setOpenELIMINAR(false);
-
-    const { user} = useAuth0();
-
     const [datos, setDatos] = useState({
         idproducto: 0,
         nombre: "",
@@ -68,15 +72,34 @@ const InventarioCRUD =()=>{
         idusuario: 0
     });
 
-    useEffect(() => { //
+    const handleClose = () => setOpen(false);
+
+    const handleCloseELIMIN = () => setOpenELIMINAR(false);
+
+    const handleClosePUT = () => setOpenPUT(false);
+
+    const { user} = useAuth0();
+
+    
+
+    useEffect(() => { 
         idProducto();
         getProducts();
-    });
+    }, [actualPRODUCT, datos ]);
     
     const handleInputChange= (event) => {
         
         setDatos({
             ...datos,
+            [event.target.name]:event.target.value
+        })
+      
+    }
+
+    const handleInputChangEDIT= (event) => {
+        
+        setActualPRODUCT({
+            ...actualPRODUCT,
             [event.target.name]:event.target.value
         })
       
@@ -99,12 +122,30 @@ const InventarioCRUD =()=>{
         
     };
 
+    const handleOpenEDIT = (idP, Nomb, precio, st, img) => {
+        let x = precio.replace('$', '').replace(',', '')
+        x = x.slice(0, -3)
+        
+
+        setActualPRODUCT({...actualPRODUCT,
+            idproducto: idP,
+            nombre: Nomb,
+            preciounidad: x,
+            stock: st,
+            imagen: img,
+            idusuario: userActID})
+
+        setOpenPUT(true)
+        
+    };
+
     function handleRemove(id){
         deletProduct(id);
     }
 
     const deletProduct = async(idDelProducto) =>{
         deleteProductbyId(idDelProducto)
+        getProducts();
         setOpenELIMINAR(true)
     } 
 
@@ -162,6 +203,11 @@ const InventarioCRUD =()=>{
         }
     } 
 
+    const handleEdit = (event) =>{
+        APIPutProduct(actualPRODUCT.idproducto, actualPRODUCT)
+        getProducts();
+        handleClosePUT()
+    }
 
     if(isLoading){
         return <Loading />
@@ -213,7 +259,7 @@ const InventarioCRUD =()=>{
                                             </Typography>
                                         <Grid container spacing = {1}>
                                         <Grid item xs = {5}>
-                                            <Button size ="medium" variant= "outlined" startIcon={<ModeEditIcon /> }></Button>
+                                            <Button size ="medium" variant= "outlined" startIcon={<ModeEditIcon /> } onClick = {() => handleOpenEDIT(it.idproducto, it.nombre, it.preciounidad, it.stock, it.imagen)}></Button>
                                             
                                         </Grid>
                                         <Grid item xs = {5}>
@@ -332,9 +378,98 @@ const InventarioCRUD =()=>{
                 </Typography>
                 </Box>
             </Modal>
-            </Box>
+            
 
+            <Modal
+            open={openPUT}
+            onClose={handleClosePUT}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description">
+                <Box sx ={style}>
+                <Typography id="modal-modal-title" variant="h5" component="h2">
+                Modifar el producto {actualPRODUCT.nombre}
+                </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Cambia los datos que desees
+                </Typography>
+                <Stack spacing={2}>
+                    <TextField
+                        disabled
+                        name="idproducto"
+                        label="Id del Producto"
+                        value = {actualPRODUCT.idproducto}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="filled"
+                        sx = {{width: 300}}
+                        
+                        />
+                        <TextField
+                        required
+                        name="nombre"
+                        label="Nombre del Producto"
+                        value = {actualPRODUCT.nombre}
+                        variant="filled"
+                        sx = {{width: 300}}
+                        onChange = {handleInputChangEDIT}
+                        />
+                        <TextField
+                        required
+                        name="preciounidad"
+                        label="Precio Unidad"
+                        type="number"
+                        value = {actualPRODUCT.preciounidad}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="filled"
+                        sx = {{width: 300}}
+                        onChange = {handleInputChangEDIT}
+                        />
+                        <TextField
+                        required
+                        name="stock"
+                        label="Stock"
+                        type="number"
+                        value = {actualPRODUCT.stock}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="filled"
+                        sx = {{width: 300}}
+                        onChange = {handleInputChangEDIT}
+                        />
+                        <TextField
+                        required
+                        name="imagen"
+                        label="Imagen"
+                        value = {actualPRODUCT.imagen}
+                        variant="filled"
+                        sx = {{width: 300}}
+                        onChange = {handleInputChangEDIT}
+                        />
+                        <TextField
+                        disabled
+                        name="idusuario"
+                        label="IdUser"
+                        value = {actualPRODUCT.idusuario}
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="filled"
+                        sx = {{width: 300}}
+                        
+                        />
+                    <Button variant="contained" onClick= {handleEdit}>EDITAR</Button>
+                </Stack>
+
+                </Box>
+            </Modal>
         
+            </Box>
         
         );
 
