@@ -125,7 +125,7 @@ const Pedidos = ()  => {
         };
         return (
             <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >
-            <Grid container spacing={2} className = 'hola'>
+            <Grid container spacing={2} className = 'hola' >
               <Grid item md={2}>
                 
                     <LeftNavBar />
@@ -133,7 +133,7 @@ const Pedidos = ()  => {
               </Grid>
               <Grid item md={10} >
                 <Item>
-                <div class="row">
+                <div class="row ">
                 {/* <div id="main"><HeaderCart countCartItems={cartItems.length}></HeaderCart></div> */}
                 <div ><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
                 </div>

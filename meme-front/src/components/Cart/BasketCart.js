@@ -6,9 +6,11 @@ export default function BasketCart(props){
     const { cartItems, onAdd, onRemove } = props;
     
     const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.preciounidad.slice(1).replace(/\D/g,''), 0);
-    const taxPrice = itemsPrice * 0.19;
-    const shippingPrice = itemsPrice > 2000 ? 0 : 20;
-    const totalPrice = itemsPrice + taxPrice + shippingPrice;
+    
+    const taxPrice = parseFloat(itemsPrice * 0.19);
+    const shippingPrice = itemsPrice *0.5;
+    const totalPrice = itemsPrice + taxPrice +shippingPrice;
+    
     return(
 
 <aside className="row block2 center">
@@ -41,16 +43,16 @@ export default function BasketCart(props){
             <hr></hr>
             <div className="row">
               <div className="col-2">Precio de productos</div>
-              <div className="col-1 text-right">${Number(itemsPrice).toFixed(2)}</div>
+              <div className="col-1 text-right">${Number(itemsPrice)}</div>
             </div>
             <div className="row">
               <div className="col-2">Impuesto (IVA 19%)</div>
-              <div className="col-1 text-right">${taxPrice.toFixed(2)}</div>
+              <div className="col-1 text-right">${Number(taxPrice)}</div>
             </div>
             <div className="row">
               <div className="col-2">Envío</div>
               <div className="col-1 text-right">
-                ${shippingPrice.toFixed(2)}
+                ${shippingPrice}
               </div>
             </div>
 
@@ -59,7 +61,8 @@ export default function BasketCart(props){
                 <strong>Total</strong>
               </div>
               <div className="col-1 text-right">
-                <strong>${totalPrice.toFixed(2)}</strong>
+                <strong>${Number(totalPrice)}</strong>
+                
               </div>
             </div>
             <hr />
