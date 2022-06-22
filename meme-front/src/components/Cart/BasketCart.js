@@ -6,8 +6,6 @@ export default function BasketCart(props){
     const { cartItems, onAdd, onRemove } = props;
     
     const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.preciounidad.slice(1).replace(/\D/g,''), 0);
-    //alert(itemsPrice);
-    //debugger;
     const taxPrice = itemsPrice * 0.19;
     const shippingPrice = itemsPrice > 2000 ? 0 : 20;
     const totalPrice = itemsPrice + taxPrice + shippingPrice;
