@@ -84,7 +84,7 @@ const Facturas =()=>{
         getFacturas();
         getRegistros();
         getProducts();
-    });
+    }, [open]);
 
     
     

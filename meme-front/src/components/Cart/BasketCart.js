@@ -1,6 +1,7 @@
 import React from 'react'
-//import FactureRegister from '../Facture/FactureRegister';
+
 import RestController from './RestController';
+import "./BasketCart.css";
 
 export default function BasketCart(props) {
 
@@ -60,11 +61,15 @@ export default function BasketCart(props) {
            
             <div className="card text-center m-3">
             <div className="card-header"><h1>Precios</h1></div> 
-            <div className="card-body">
+            <div class="card-body"  className="scrollear2">
             <div className="card text-center m-3"  >
            
-              <div className="card-header" ><h4>Precio de productos</h4></div>
-              <div className="card-body">${Number(itemsPrice)}</div>
+              <div class="card-header" ><h4>Precio de productos</h4></div>
+              <div class="card-body">
+                
+                ${Number(itemsPrice)}
+                
+              </div>
 
             </div>
 
@@ -100,15 +105,14 @@ export default function BasketCart(props) {
               </div>
             </div>
 
-         
-
+        
+            </div>
 
             <div >
               ReactDom
             <button class="btn btn-primary" className ="Cus" onClick={new RestController(5)}>
                 Hacer pedido!
               </button>
-            </div>
             </div>
             </div> 
             

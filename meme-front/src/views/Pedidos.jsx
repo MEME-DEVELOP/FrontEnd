@@ -7,10 +7,10 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import HeaderCart from "../components/Cart/HeaderCart";
+import "./Pedidos.css"
 import MainCart from "../components/Cart/MainCart";
 import BasketCart from "../components/Cart/BasketCart";
-import "./Pedidos.css";
+
 
 
 
@@ -127,16 +127,17 @@ const Pedidos = ()  => {
                   <h1 className="card-header">Carrito de compras</h1>
                   <div className="card-body" ><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
                   </div>
-                
-                
-                
                 </div>
                 </div>
                 <div class="col">
-                <div className="card text-center m-3">
-                  <h1 className="card-header">Agregar productos al carrito</h1>
+                <div class="card text-center m-3">
+                  <h1 class="card-header" > Agregar productos al carrito</h1>
                   
-                  <div className="card-body" class="texto "><MainCart  onAdd={onAdd} products ={products}></MainCart></div>
+                  <div class="card-body">
+                    <div className="scrollear">
+                      <MainCart  onAdd={onAdd} products ={products}></MainCart>
+                    </div>
+                  </div>
                   </div>
                   </div>
 
