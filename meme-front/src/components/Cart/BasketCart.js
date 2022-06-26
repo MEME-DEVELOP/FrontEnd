@@ -2,7 +2,7 @@ import React from 'react'
 
 import RestController from './RestController';
 import "./BasketCart.css";
-
+import { APIPutProduct } from '../../API/ProductosAPI';
 export default function BasketCart(props) {
 
   const { cartItems, onAdd, onRemove, } = props;
@@ -109,8 +109,15 @@ export default function BasketCart(props) {
             </div>
 
             <div >
-              ReactDom
-            <button class="btn btn-primary" className ="Cus" onClick={new RestController(5)}>
+              
+            <button class="btn btn-primary" className ="Cus" onClick={()=>APIPutProduct(10,{
+    "idproducto": 10,
+    "nombre": "Prueba1",
+    "preciounidad": "$1.00",
+    "stock": 1,
+    "imagen": "https://picsum.photos/id/237/200/300",
+    "idusuario": 10
+          })}>
                 Hacer pedido!
               </button>
             </div>
