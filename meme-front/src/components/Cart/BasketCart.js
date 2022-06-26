@@ -1,5 +1,6 @@
 import React from 'react'
 //import FactureRegister from '../Facture/FactureRegister';
+import { PutRequestErrorHandling } from './PutRequest';
 
 export default function BasketCart(props) {
 
@@ -10,26 +11,25 @@ export default function BasketCart(props) {
   const taxPrice = parseFloat(itemsPrice * 0.19);
   const shippingPrice = itemsPrice * 0.5;
   const totalPrice = itemsPrice + taxPrice + shippingPrice;
-
-  function handleClick(e) {
-    e.preventDefault();
-    alert('The link was clicked.');
-
+  
  
 
-  }
+ 
   return (
-
-    <aside className="row block2 center">
-      <h2 className='whitetext'>Productos </h2>
-      <div className='whitetext' >
+      <div class="container-fluid">
+        <div class="row">
+          
+      
+      <div className='whitetext' class="container" >
+        
+   
         {cartItems.length === 0 && <div>No ha adicionado ningún producto</div>}
 
         {cartItems.map((item) => (
 
-          <div key={item.idproducto} className="row">
-            <div className="col-2">{item.nombre}</div>
-            <div className="col-2">
+          <div key={item.idproducto} className="card text-center m-3" >
+            <div className="card-header" ><h3>{item.nombre}</h3></div>
+            <div className="card-body">
               <button onClick={() => onRemove(item)} className="remove">
                 -
               </button>{' '}
@@ -38,60 +38,87 @@ export default function BasketCart(props) {
               </button>
             </div>
 
-            <div className="col-2 text-right">
+            <div className="card-body">
               {item.qty} x ${Number(item.preciounidad.slice(1).replace(/\D/g, ''))}
 
             </div>
+            
+
           </div>
+
+          
         ))}
+        </div>
+      
+
+     
 
         {cartItems.length !== 0 && (
           <>
             <hr></hr>
-            <div className="row">
-              <div className="col-2">Precio de productos</div>
-              <div className="col-1 text-right">${Number(itemsPrice)}</div>
+           
+            <div className="card text-center m-3">
+            <div className="card-header"><h1>Precios</h1></div> 
+            <div className="card-body">
+            <div className="card text-center m-3"  >
+           
+              <div className="card-header" ><h4>Precio de productos</h4></div>
+              <div className="card-body">${Number(itemsPrice)}</div>
 
             </div>
-            <div className="row">
-              <div className="col-2">Impuesto (IVA 19%)</div>
-              <div className="col-1 text-right">${Number(taxPrice)}</div>
+
+
+
+            <div className="card text-center m-3" >
+              <div className="card-header">Impuesto (IVA 19%)</div>
+              <div className="card-body">${Number(taxPrice)}</div>
 
             </div>
-            <div className="row">
-              <div className="col-2">Envío</div>
-              <div className="col-1 text-right">
+
+
+            <div className="card text-center m-3" >
+              <div className="card-header">Envío</div>
+              <div className="card-body">
                 ${Number(shippingPrice)}
 
               </div>
+
+
+
             </div>
 
-            <div className="row">
-              <div className="col-2">
+
+
+
+            <div className="card text-center m-3" >
+              <div className="card-header">
                 <strong>Total</strong>
               </div>
-              <div className="col-1 text-right">
+              <div className="card-body">
                 ${totalPrice}
-
-
-
               </div>
             </div>
 
-            <hr />
-            <div className="row">
-              <button class="btn btn-info" onClick={handleClick}>
+         
+
+
+            <div >
+            <button class="btn btn-primary" className ="Cus" >
                 Hacer pedidos
               </button>
-
             </div>
-
+            </div>
+            </div> 
+            
           </>
         )}
-      </div>
+        
 
+        </div>
+     
+      
+        </div>
 
-    </aside>
   )
 
 }

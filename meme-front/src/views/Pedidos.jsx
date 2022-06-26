@@ -15,6 +15,7 @@ import "./Pedidos.css";
 
 
 
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -118,22 +119,29 @@ const Pedidos = ()  => {
               <Grid item md={10} >
                 
                 <Item >
-                <div class="row " >
-                {/* <div id="main"><HeaderCart countCartItems={cartItems.length}></HeaderCart></div> */}
-                <BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart>
-                <MainCart onAdd={onAdd} products ={products}></MainCart>
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col">
+                <div  >
+                  <div className="card text-center m-3">
+                  <h1 className="card-header">Carrito de compras</h1>
+                  <div className="card-body" ><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
+                  </div>
+                
+                
+                
                 </div>
-                <div>
-                
-                <br/>
-                <br/>
                 </div>
-                <div className="row" >
-                 
-                
-                
-                
-                
+                <div class="col">
+                <div className="card text-center m-3">
+                  <h1 className="card-header">Agregar productos al carrito</h1>
+                  
+                  <div className="card-body" class="texto "><MainCart  onAdd={onAdd} products ={products}></MainCart></div>
+                  </div>
+                  </div>
+
+             
+                </div>
                 </div>
                 </Item>
               </Grid>
