@@ -22,7 +22,7 @@ export default function BasketCart(props) {
         <div class="row">
           
       
-      <div className='whitetext' class="container" >
+      <div class='whitetext' className="scrollear3" >
         
    
         {cartItems.length === 0 && <div>No ha adicionado ningún producto</div>}

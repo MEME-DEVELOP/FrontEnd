@@ -62,6 +62,8 @@ const Home = () => {
                   <Grid item md={10} >
                     <Item>
                         <p> HOla este es el home</p>
+
+                        <img src="/LOGOMEME.png" alt="Italian Trulli"></img>
                     </Item>
                   </Grid>
                 </Grid>

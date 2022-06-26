@@ -1,4 +1,9 @@
 .scrollear2{
-    height: 25vh;
+    height: 30vh;
+    overflow-y: scroll;
+}
+
+.scrollear3{
+    height: 35vh;
     overflow-y: scroll;
 }
