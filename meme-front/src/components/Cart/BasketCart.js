@@ -1,6 +1,6 @@
 import React from 'react'
 //import FactureRegister from '../Facture/FactureRegister';
-import { PutRequestErrorHandling } from './PutRequest';
+import RestController from './RestController';
 
 export default function BasketCart(props) {
 
@@ -12,7 +12,8 @@ export default function BasketCart(props) {
   const shippingPrice = itemsPrice * 0.5;
   const totalPrice = itemsPrice + taxPrice + shippingPrice;
   
- 
+
+
 
  
   return (
@@ -103,8 +104,9 @@ export default function BasketCart(props) {
 
 
             <div >
-            <button class="btn btn-primary" className ="Cus" >
-                Hacer pedidos
+              ReactDom
+            <button class="btn btn-primary" className ="Cus" onClick={new RestController(5)}>
+                Hacer pedido!
               </button>
             </div>
             </div>
