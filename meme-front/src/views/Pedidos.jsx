@@ -105,9 +105,6 @@ const Pedidos = ()  => {
         };
 
 
-        const PedidosPost = () => {
-          alert("Holi");
-        };
 
         return (
             <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >
