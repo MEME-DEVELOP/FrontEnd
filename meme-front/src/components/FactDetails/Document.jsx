@@ -17,15 +17,12 @@ const styles = StyleSheet.create({
 // Create Document Component
 const MyDocument = (props) => {
 
-
+  let docData = JSON.parse(props.datos)
   return(
     <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
-        <Text>{props.datos}</Text>
-      </View>
-      <View style={styles.section}>
-        <Text>Section #2</Text>
+        <Text>{}</Text>
       </View>
     </Page>
   </Document>

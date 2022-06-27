@@ -220,7 +220,7 @@ const VerFacturas =()=>{
 
                         return (
                             
-                            <div key= {it.idregister} class= "row  mx- 2 mb-4 shadow rounded-3 p-3 w-100">
+                            <div key= {it.idregister} class= "row  mx-2 mb-4 shadow rounded-3 p-3 w-100">
                                 <div class= "col">
                                     Nombre:
                                     {"    " + nombRegProd[indice]}
@@ -230,7 +230,7 @@ const VerFacturas =()=>{
                                     {"   " + it.cantidad}
                                 </div>
                                 <div class= "col">
-                                    Costo Producto:
+                                    Costo Total Producto:
                                     {"    " + it.constot}
                                 </div>
                             </div>    
@@ -238,7 +238,7 @@ const VerFacturas =()=>{
                         )
                     }
                     </div>
-                    <PDFDownloadLink document={<MyDocument datos= {JSON.stringify(facturas)}/>} fileName={"factura"} style = {{width:"50%", alignSelf:"center",textDecoration: 'none', color: '#ff1428'}}>
+                    <PDFDownloadLink document={<MyDocument datos= {JSON.stringify({fecha: actualFactura.fecha,reg: registros})} />} fileName={"factura"} style = {{width:"50%", alignSelf:"center",textDecoration: 'none', color: '#ff1428'}}>
                         <Button variant="outlined" color="error" >
                             <PictureAsPdfIcon/>{" - "}Imprimir
                         </Button>
