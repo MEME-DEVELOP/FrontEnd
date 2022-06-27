@@ -29,17 +29,15 @@ export default function BasketCart(props) {
   var idfact1;
 
   let idfactura = getFacturaID().then(function (result) {
-    console.log("whattt" + typeof result); // imprime "dos";
     idfact1 = result;
-
-
 
   });
 
   //var idfactura = 923;
   const { cartItems, onAdd, onRemove, } = props;
+  
 
-  const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.preciounidad.slice(1).replace(/\D/g, ''), 0);
+  const itemsPrice = cartItems.reduce((a, c) => a + c.qty * (c.preciounidad.replace('$', '').replace(',', '')).slice(0, -3), 0);
 
   const taxPrice = parseFloat(itemsPrice * 0.19);
   const shippingPrice = itemsPrice * 0.5;
@@ -87,18 +85,14 @@ export default function BasketCart(props) {
 
 
         idregister = Math.floor(Math.random() * product.idusuario * 100)
-        console.log("El valor de idregister");
-        console.log(idregister);
 
-        console.log("El valor de idfacturaes")
-        console.log(idfacturaFinal)
 
         try {
-          console.log("qty")
-          console.log(product.qty)
-          console.log("preciounidad")
-          console.log(product.preciounidad)
-          constot = product.qty * product.preciounidad
+
+
+          let x = product.preciounidad.replace('$', '').replace(',', '')
+          x = x.slice(0, -3)
+          constot = product.qty * x
           postRegistro({
             "idregister": idregister,
             "cantidad": product.qty,
@@ -145,7 +139,7 @@ export default function BasketCart(props) {
               </div>
 
               <div className="card-body">
-                {item.qty} x ${Number(item.preciounidad.slice(1).replace(/\D/g, ''))}
+                {item.qty} x ${Number((item.preciounidad.replace('$', '').replace(',', '')).slice(0, -3))}
 
               </div>
 
