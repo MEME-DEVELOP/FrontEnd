@@ -53,10 +53,6 @@ const LeftNavBar = () =>{
         navigate("/Facturas", { replace: true });
     }
 
-    const handlePruebas =(event) => {
-        event.preventDefault();
-        navigate("/Pruebas", { replace: true });
-    }
 
     const getUserInfo = async() => {
         APIgetUserEmail(user.email).then(result =>{

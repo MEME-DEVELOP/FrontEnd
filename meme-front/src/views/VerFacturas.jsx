@@ -47,7 +47,6 @@ const style = {
 
 const VerFacturas =()=>{
     const [facturas, setFacturas] = useState([])
-    const [userActID, setUserActID] = useState(0);
     const [isLoading, setLoading] = useState(true)
     const [isEmpty, setisEmpty] = useState(true)
     const [isEmptyFact, setisEmptyFact] = useState(true)
@@ -87,7 +86,7 @@ const VerFacturas =()=>{
                 let x  = nombRegProd
                 x.push(result.nombre)
                 setNombRegProd(x)
-                if (indice+1 == arr.length){
+                if (indice+1 === arr.length){
                     setOpen(true);
                 }
         })
@@ -121,7 +120,6 @@ const VerFacturas =()=>{
         var x;
         await APIgetIdByEmail(user.email).then(result =>{
             x = result
-            setUserActID(result)
             
         })
         await APIgetFacturabyID(x).then(result =>{
@@ -218,7 +216,7 @@ const VerFacturas =()=>{
                 <Stack spacing={2}>
                     <div className="scrollProdu">
                     {
-                    isEmpty && registros.map((it, indice) => {
+                    isEmptyFact && registros.map((it, indice) => {
 
                         return (
                             

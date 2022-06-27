@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Button } from '@mui/material';
 
 import "./BasketCart.css";
 import { APIPutProduct } from '../../API/ProductosAPI';
@@ -126,7 +126,7 @@ export default function BasketCart(props) {
       <div class="row">
 
 
-        <div className='whitetext' class="container" >
+        <div class='whitetext' className='scroll1' >
 
 
           {cartItems.length === 0 && <div>No ha adicionado ningún producto</div>}
@@ -214,16 +214,10 @@ export default function BasketCart(props) {
 
               <div >
 
-
-
-
-                <button class="btn btn-primary" className="Cus" onClick={() => modifyStock(idfactura, totalPrice)}>Hacer pedido!</button>
-
-
-
-
-
-
+                <Button  variant="contained" sx= {{width: '50%', margin:'1%'}}
+                  onClick={() => modifyStock(idfactura, totalPrice)}>
+                  Hacer pedido!
+                </Button>
 
 
               </div>
