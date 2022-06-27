@@ -47,14 +47,44 @@ export const postProduct = async(data) =>{
      await axios.post("http://localhost:8000/ProductoD/", data)
          .then(resolve =>{
             
-             console.log("Producto RESGISTRADO")
+             console.log("Producto REGISTRADO")
          })
 }
+/////////////////////////////////////////////////////////////////////////////////////////////
+export const postFactura  = async(data,callback) =>{
+    //console.log(data)
+    const myPromise= axios.post("http://127.0.0.1:8000/FacturaD/", data)
+        .then(resolve =>{
+           
+            console.log("Factura registrada")
+
+        })
+     
+        
+}
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+export const postRegistro = async(data) =>{
+    console.log(data)
+    try{
+    await axios.post("http://127.0.0.1:8000/RegistroD/", data)
+        .then(resolve =>{
+           
+            console.log("Registro guardado")
+            
+        })
+    }
+    catch(e)
+    {console.log("Perra")}
+}
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 export const APIPutProduct = async(id, data) => {
-    await axios.put("http://localhost:8000/ProductoD/"+id+"/", data).then(resolve=>{
+    await axios.put("http://127.0.0.1:8000/ProductoD/"+id+"/", data).then(resolve=>{
         console.log("Producto EDITADO")
-        alert("Stock Modificado")
+        //alert("Stock Modificado")
+        
+        
     })
 
 }
