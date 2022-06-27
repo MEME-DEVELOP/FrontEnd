@@ -26,6 +26,7 @@ function modifyStock(e){
   try{var iduser = cartItems[0].idusuario}
   catch(err)
   {console.log(err)}
+  
     postFactura(
       {
         "idfactura":e,
@@ -36,7 +37,7 @@ function modifyStock(e){
         
   )
   
-  setTimeout(5000)
+ 
  
   
   const newCartItems = cartItems.map( (product)=>{ 

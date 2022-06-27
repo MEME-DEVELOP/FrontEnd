@@ -59,7 +59,7 @@ export const postFactura  = async(data,callback) =>{
             console.log("Factura registrada")
 
         })
-     
+    
         
 }
 /////////////////////////////////////////////////////////////////////////////////////////////
