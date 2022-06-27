@@ -77,6 +77,8 @@ const Pedidos = ()  => {
     console.log(products) 
    
         const [cartItems, setCartItems] = useState([]);
+        console.log("cartItems");
+        console.log(cartItems);
         const onAdd = (product) => {
           const exist = cartItems.find((x) => x.idproducto === product.idproducto);
           if (exist) {
@@ -103,9 +105,6 @@ const Pedidos = ()  => {
         };
 
 
-        const PedidosPost = () => {
-          alert("Holi");
-        };
 
         return (
             <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >

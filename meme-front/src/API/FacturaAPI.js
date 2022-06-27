@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getProductID } from './ProductosAPI';
 
 export const APIgetAllFactura= async () => {
     let factura = [];
