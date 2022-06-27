@@ -7,10 +7,11 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import HeaderCart from "../components/Cart/HeaderCart";
+import "./Pedidos.css"
 import MainCart from "../components/Cart/MainCart";
 import BasketCart from "../components/Cart/BasketCart";
-import "./Pedidos.css";
+
+
 
 
 
@@ -31,7 +32,7 @@ const Pedidos = ()  => {
     const [userActID, setUserActID] = useState(0);
     const [isLoading, setLoading] = useState(true)
     const [isEmpty, setisEmpty] = useState(true)
-    const [open, setOpen] = useState(false);
+    
     const { user} = useAuth0();
     const [datos, setDatos] = useState({
           idproducto: prodId,
@@ -73,9 +74,9 @@ const Pedidos = ()  => {
     })
 };
     // 
-    console.log(products) 
    
         const [cartItems, setCartItems] = useState([]);
+     
         const onAdd = (product) => {
           const exist = cartItems.find((x) => x.idproducto === product.idproducto);
           if (exist) {
@@ -102,9 +103,6 @@ const Pedidos = ()  => {
         };
 
 
-        const PedidosPost = () => {
-          alert("Holi");
-        };
 
         return (
             <Box class ="m-3 p-1 h-100" mx={{ flexGrow: 1 }} >
@@ -118,22 +116,30 @@ const Pedidos = ()  => {
               <Grid item md={10} >
                 
                 <Item >
-                <div class="row " >
-                {/* <div id="main"><HeaderCart countCartItems={cartItems.length}></HeaderCart></div> */}
-                <BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart>
-                <MainCart onAdd={onAdd} products ={products}></MainCart>
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col">
+                <div  >
+                  <div className="card text-center m-3">
+                  <h1 className="card-header">Carrito de compras</h1>
+                  <div className="card-body" ><BasketCart onAdd={onAdd} onRemove={onRemove} cartItems={cartItems} ></BasketCart></div>
+                  </div>
                 </div>
-                <div>
-                
-                <br/>
-                <br/>
                 </div>
-                <div className="row" >
-                 
-                
-                
-                
-                
+                <div class="col">
+                <div class="card text-center m-3">
+                  <h1 class="card-header" > Agregar productos al carrito</h1>
+                  
+                  <div class="card-body">
+                    <div className="scrollear">
+                      <MainCart  onAdd={onAdd} products ={products}></MainCart>
+                    </div>
+                  </div>
+                  </div>
+                  </div>
+
+             
+                </div>
                 </div>
                 </Item>
               </Grid>

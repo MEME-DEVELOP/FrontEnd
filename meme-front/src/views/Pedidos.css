@@ -1,4 +1,4 @@
-.scrolling{
-    height: 300px;
+.scrollear{
+    height: 80vh;
     overflow-y: scroll;
 }

@@ -1,0 +1,12 @@
+.scrollearFact{
+    padding-top: 2vh;
+    height: 75vh;
+    overflow-y: scroll;
+    
+}
+.scrollProdu{
+    padding-top: 2vh;
+    height: 40vh;
+    overflow-y: scroll;
+    
+}

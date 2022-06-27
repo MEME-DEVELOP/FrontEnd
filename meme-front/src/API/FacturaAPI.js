@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 export const APIgetAllFactura= async () => {
     let factura = [];
     await axios.get('http://localhost:8000/FacturaD/').then(result=>{
@@ -26,7 +27,7 @@ export const APIgetFacturabyID = async(ID) =>{
             idusuario: ID
           }
       }).then(result=>{
-            console.log(ID)
+            
               if (result.data[0] === undefined) {
                  factura = undefined
               } else{
@@ -43,7 +44,6 @@ export const deleteFacturabyId = async(id) =>{
     await axios.delete("http://localhost:8000/FacturaD/"+id).then(resolve=>{console.log("Factura Eliminado")})
 }
  export const postFactura= async(data) =>{
-     console.log(data)
     await axios.post("http://localhost:8000/FacturaD/", data)
         .then(resolve =>{
             

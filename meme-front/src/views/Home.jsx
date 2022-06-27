@@ -61,7 +61,9 @@ const Home = () => {
                   </Grid>
                   <Grid item md={10} >
                     <Item>
-                        <p> HOla este es el home</p>
+                        
+                
+                        <img class = "responsive" src="/LOGOMEME.png" alt="LOGO MEME" ></img>
                     </Item>
                   </Grid>
                 </Grid>

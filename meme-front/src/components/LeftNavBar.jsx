@@ -13,7 +13,6 @@ import { APIgetUserEmail } from "../API/UsuariosAPI";
 import Loading from "./Loading";
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
 
 const ButtonSett = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(blue[700]),
@@ -54,10 +53,6 @@ const LeftNavBar = () =>{
         navigate("/Facturas", { replace: true });
     }
 
-    const handlePruebas =(event) => {
-        event.preventDefault();
-        navigate("/Pruebas", { replace: true });
-    }
 
     const getUserInfo = async() => {
         APIgetUserEmail(user.email).then(result =>{

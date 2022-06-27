@@ -10,6 +10,17 @@ export const APIgetAllProducts = async () => {
     return productos;
 };
 
+export const APIgetEspecific = async (id) => {
+    let productos = [];
+    await axios.get('http://localhost:8000/ProductoD/'+id).then(result=>{
+        
+            productos = result.data
+            
+    }).catch(console.log);
+    
+    return productos;
+};
+
 export const getProductID = async() => {
     let data = await APIgetAllProducts();
     const fil = data.sort((a,b) => a.idproducto-b.idproducto)
@@ -47,13 +58,18 @@ export const postProduct = async(data) =>{
      await axios.post("http://localhost:8000/ProductoD/", data)
          .then(resolve =>{
             
-             console.log("Producto RESGISTRADO")
+             console.log("Producto REGISTRADO")
          })
 }
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 
 export const APIPutProduct = async(id, data) => {
-    await axios.put("http://localhost:8000/ProductoD/"+id+"/", data).then(resolve=>{
+    await axios.put("http://127.0.0.1:8000/ProductoD/"+id+"/", data).then(resolve=>{
         console.log("Producto EDITADO")
+        //alert("Stock Modificado")
+        
+        
     })
 
 }

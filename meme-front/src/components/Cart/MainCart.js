@@ -5,13 +5,13 @@ export default function MainCart(props){
     const {products,onAdd} = props;
     return(
       
-
-   
-          
-
-      <div className="row center" >
+      <div>
         {products.map((product) => (
-          <Product key={product.idproducto} product={product} onAdd={onAdd}></Product>
+          
+            <div  ><Product key={product.idproducto} product={product} onAdd={onAdd}></Product>
+            
+            </div>
+          
         ))}
       </div>
       
