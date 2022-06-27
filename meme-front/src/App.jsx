@@ -7,9 +7,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import RegisteringSite from './views/RegisteringSite';
 import UserSettings from './views/UserSettings';
 import InventarioCRUD from './views/InventarioCRUD';
-//import ViewerPDF from './components/FactDetails/viewerFact';
-
-//import ProtectedRoute from './components/ProtectedRoute';
 import Pedidos from './views/Pedidos';
 
 import Facturas from './views/VerFacturas';
@@ -30,7 +27,6 @@ const App = ()  => {
           <Route path = "/Productos" element = {<InventarioCRUD/>} />
           <Route path="/Pedidos" element={<Pedidos/>}/>
           <Route path="/Facturas" element={<Facturas/>}/>  
-          {/* <Route path="/PDF" element={<ViewerPDF/>}/>         */}
         </Routes>
         
   );
