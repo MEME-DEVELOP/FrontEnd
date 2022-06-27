@@ -25,7 +25,7 @@ export const APIgetregistrobyID = async(ID) =>{
              idregister: ID
           }
       }).then(result=>{
-            console.log(ID)
+            
               if (result.data[0] === undefined) {
                  registro = undefined
               } else{

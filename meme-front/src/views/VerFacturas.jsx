@@ -86,6 +86,7 @@ const VerFacturas =()=>{
         await APIgetIdByEmail(user.email).then(result =>{
             x = result
             setUserActID(result)
+            
         })
         await APIgetFacturabyID(x).then(result =>{
             if (result === undefined){
@@ -93,6 +94,8 @@ const VerFacturas =()=>{
             }else{
                 setisEmpty(true)
             }
+
+            console.log(result)
             setFacturas(result)
             setLoading(false)
             
