@@ -1,8 +1,8 @@
 import React from 'react'
+
+import RestController from './RestController';
 import "./BasketCart.css";
 import { APIPutProduct } from '../../API/ProductosAPI';
-import { Button } from "@mui/material";
-
 export default function BasketCart(props) {
 
   const { cartItems, onAdd, onRemove, } = props;
@@ -12,17 +12,42 @@ export default function BasketCart(props) {
   const taxPrice = parseFloat(itemsPrice * 0.19);
   const shippingPrice = itemsPrice * 0.5;
   const totalPrice = itemsPrice + taxPrice + shippingPrice;
+
+
+function modifyStock(){
+  const newCartItems = cartItems.map( (product)=>{ 
+    
+    if ((product.stock-product.qty)<0){return alert("No hay suficiente cantidad de {producto.nombre}")}
+  else{
+    return (
+
+    
+    
+
+    APIPutProduct(product.idproducto,{
+    "idproducto": product.idproducto,
+    "nombre": product.nombre,
+    "preciounidad": product.preciounidad,
+    "stock": product.stock-product.qty,
+    "imagen": product.imagen,
+    "idusuario": product.idusuario
+  })
   
 
+)} } )
+
+//console.log("Verificar stock modificado")
+//console.log(newCartItems)
+
+}
 
 
- 
-  return (
+return (
       <div class="container-fluid">
         <div class="row">
           
       
-      <div class='whitetext' className="scrollear3" >
+      <div className='whitetext' class="container" >
         
    
         {cartItems.length === 0 && <div>No ha adicionado ningún producto</div>}
@@ -42,17 +67,17 @@ export default function BasketCart(props) {
 
             <div className="card-body">
               {item.qty} x ${Number(item.preciounidad.slice(1).replace(/\D/g, ''))}
+              
+            </div>                                                                                                                                                                                                                                  
 
-            </div>
-            
 
           </div>
-
-          
+       
         ))}
         </div>
       
-
+          
+          
      
 
         {cartItems.length !== 0 && (
@@ -110,15 +135,14 @@ export default function BasketCart(props) {
 
             <div >
               
-            <Button variant="contained" sx = {{mt: 2, mb:2}}onClick={()=>APIPutProduct(10,{
-    "idproducto": 10,
-    "nombre": "Prueba1",
-    "preciounidad": "$1.00",
-    "stock": 1,
-    "imagen": "https://picsum.photos/id/237/200/300",
-    "idusuario": 10
-          })}>Hacer pedido!</Button>
-            
+
+                        
+            <button class="btn btn-primary" className ="Cus" onClick={()=>modifyStock()}>
+
+                Hacer pedido!
+              </button>
+
+
             </div>
             </div> 
             

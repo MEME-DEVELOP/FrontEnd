@@ -54,6 +54,7 @@ export const postProduct = async(data) =>{
 export const APIPutProduct = async(id, data) => {
     await axios.put("http://localhost:8000/ProductoD/"+id+"/", data).then(resolve=>{
         console.log("Producto EDITADO")
+        alert("Stock Modificado")
     })
 
 }

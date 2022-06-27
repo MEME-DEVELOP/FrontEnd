@@ -77,6 +77,8 @@ const Pedidos = ()  => {
     console.log(products) 
    
         const [cartItems, setCartItems] = useState([]);
+        console.log("cartItems");
+        console.log(cartItems);
         const onAdd = (product) => {
           const exist = cartItems.find((x) => x.idproducto === product.idproducto);
           if (exist) {
