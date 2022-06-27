@@ -1,21 +1,22 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import {APIgetIdByEmail} from "../API/UsuariosAPI";
-import { APIgetFacturabyID, getFacturaID, } from "../API/FacturaAPI";
+import { APIgetFacturabyID } from "../API/FacturaAPI";
+import { getRegbyFactID } from "../API/RegistroAPI";
+import { APIgetEspecific } from "../API/ProductosAPI";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import LeftNavBar from "../components/LeftNavBar";
 import { styled } from '@mui/material/styles';
 import Loading from '../components/Loading';
-import {Typography, Grid, Button, Modal } from "@mui/material";
+import {Typography, Grid, Button, Modal, Stack } from "@mui/material";
 import { blue } from "@mui/material/colors";
-
 import DetailsIcon from '@mui/icons-material/Receipt';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import { useNavigate } from "react-router-dom";
 import "./VerFacturas.css"
-
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import MyDocument from "../components/FactDetails/Document";
 import { PDFDownloadLink} from '@react-pdf/renderer';
 
@@ -36,7 +37,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: '60%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -46,35 +47,66 @@ const style = {
 
 const VerFacturas =()=>{
     const [facturas, setFacturas] = useState([])
-    const [prodId, setProdId] = useState(0);
     const [userActID, setUserActID] = useState(0);
     const [isLoading, setLoading] = useState(true)
     const [isEmpty, setisEmpty] = useState(true)
+    const [isEmptyFact, setisEmptyFact] = useState(true)
     const [open, setOpen] = useState(false);
+    const [actualFactura, setActualFactura] = useState({
+        idFactura : 0,
+        fecha: ""
+    })
 
-    const handleOpen = () => setOpen(true);
+    const [registros, setRegistros] = useState([])
+
+    const [nombRegProd, setNombRegProd] = useState([])
+
+    const handleOpen = async(idFact, fechaFact) => {
+        setActualFactura({
+            idFactura : idFact,
+            fecha: fechaFact
+        })
+        await getRegbyFactID(idFact).then(result =>{
+            if (result === undefined){
+                setisEmptyFact(false)
+            }else{
+                setisEmptyFact(true)
+            }
+            
+            setRegistros(result)
+            result.forEach(funcionNombres)
+            
+        })
+      
+        
+    }
+    
+    const funcionNombres = (value, indice, arr) =>{
+
+        APIgetEspecific(value.productod_idproducto).then(result =>{
+                let x  = nombRegProd
+                x.push(result.nombre)
+                setNombRegProd(x)
+                if (indice+1 == arr.length){
+                    setOpen(true);
+                }
+        })
+        
+    }
+    
     const handleClose = () => setOpen(false);
     
     let navigate = useNavigate();
 
     const { user} = useAuth0();
 
+   
     useEffect(() => { //
-        idFactura();
         getFacturas();
        
-    }, [open]);
+    }, [isLoading]);
 
     
-
-    const idFactura = async() =>{
-        let data = await getFacturaID();
-        
-        setProdId(data)
-
-        
-        
-    }
 
 
     const handlePedidos = (event) =>{
@@ -83,7 +115,6 @@ const VerFacturas =()=>{
     }
 
  
-
 
 
     const getFacturas = async() => {
@@ -100,7 +131,6 @@ const VerFacturas =()=>{
                 setisEmpty(true)
             }
 
-            console.log(result)
             setFacturas(result)
             setLoading(false)
             
@@ -145,7 +175,7 @@ const VerFacturas =()=>{
                     <div className="scrollearFact ">
                         {
                             isEmpty && facturas.map((it, indice) => (
-
+                                    
                                 <div  key= {it.idfactura} class="rounded-3 p-3 mx-3 mb-4 shadow-lg ">
                                     <div class="row">
                                         <div class="col">
@@ -159,7 +189,7 @@ const VerFacturas =()=>{
                                             </Typography>
                                         </div>
                                         <div class="col">
-                                            <Button variant="outlined" onClick={handleOpen}><DetailsIcon></DetailsIcon>Detalles</Button>
+                                            <Button variant="outlined" onClick={() => handleOpen(it.idfactura, it.fecha)}><DetailsIcon></DetailsIcon>Detalles</Button>
                                         </div>
                                     </div>
                                     
@@ -177,19 +207,47 @@ const VerFacturas =()=>{
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
+                aria-describedby="modal-modal-description">
                 <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Text in a modal
+                <Typography id="modal-modal-title" variant="h4" sx={{color: blue[700],alignSelf:"center"}}>
+                    TU FACTURA 
                 </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                <Typography id="modal-modal-description" variant="h5" sx={{ mt: 2 }}>
+                    Fecha : {actualFactura.fecha}
                 </Typography>
+                <Stack spacing={2}>
+                    <div className="scrollProdu">
+                    {
+                    isEmpty && registros.map((it, indice) => {
 
-                <PDFDownloadLink document={<MyDocument datos= {JSON.stringify(facturas)}/>} fileName={"factura"}> 
-                    <button> Download </button> 
-                </PDFDownloadLink> 
+                        return (
+                            
+                            <div key= {it.idregister} class= "row  mx- 2 mb-4 shadow rounded-3 p-3 w-100">
+                                <div class= "col">
+                                    Nombre:
+                                    {"    " + nombRegProd[indice]}
+                                </div>
+                                <div class= "col">
+                                    Cantidad:
+                                    {"   " + it.cantidad}
+                                </div>
+                                <div class= "col">
+                                    Costo Producto:
+                                    {"    " + it.constot}
+                                </div>
+                            </div>    
+                        )}
+                        )
+                    }
+                    </div>
+                    <PDFDownloadLink document={<MyDocument datos= {JSON.stringify(facturas)}/>} fileName={"factura"} style = {{width:"50%", alignSelf:"center",textDecoration: 'none', color: '#ff1428'}}>
+                        <Button variant="outlined" color="error" >
+                            <PictureAsPdfIcon/>{" - "}Imprimir
+                        </Button>
+                    </PDFDownloadLink>
+                    
+
+                </Stack>
                 </Box>
             </Modal>
             </Box>
