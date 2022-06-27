@@ -25,7 +25,7 @@ export const APIgetregistrobyID = async(ID) =>{
              idregister: ID
           }
       }).then(result=>{
-            console.log(ID)
+            
               if (result.data[0] === undefined) {
                  registro = undefined
               } else{
@@ -37,6 +37,24 @@ export const APIgetregistrobyID = async(ID) =>{
      return registro;
  };
 
+ export const getRegbyFactID = async(ID) =>{
+    let registro = [];
+    await axios.get('http://localhost:8000/RegistroD/', {
+        params: {
+            facturad_idfactura: ID
+        }
+    }).then(result=>{
+          
+            if (result.data[0] === undefined) {
+               registro = undefined
+            } else{
+               registro = result.data
+            }
+          
+   }).catch(console.log);
+
+   return registro;
+};
 
 
  export const postRegistro= async(data) =>{
