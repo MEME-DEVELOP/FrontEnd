@@ -1,6 +1,6 @@
-import React from 'react'
-import { Button } from '@mui/material';
-
+import React, { useState } from "react";
+import { Button, Modal, Typography, Box } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import "./BasketCart.css";
 import { APIPutProduct } from '../../API/ProductosAPI';
 import { postFactura } from '../../API/FacturaAPI'
@@ -23,7 +23,31 @@ if (month < 10) {
   console.log(fechaCompleta)
 }
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '40%',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: '25px'
+};
+
 export default function BasketCart(props) {
+  let navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false)
+    navigate("/Home", { replace: true });
+  };
+  const handleOpen = () => {
+    setOpen(true);
+    
+  }
+  
   //var idfactura = Math.floor(Math.random()*10000);
   var constot;
   var idfact1;
@@ -101,6 +125,8 @@ export default function BasketCart(props) {
             "productod_idproducto": product.idproducto
 
           })
+
+          handleOpen()
         }
         catch {
           console.log("errorrrrrrrr")
@@ -209,7 +235,9 @@ export default function BasketCart(props) {
               <div >
 
                 <Button  variant="contained" sx= {{width: '50%', margin:'1%'}}
-                  onClick={() => modifyStock(idfactura, totalPrice)}>
+                  onClick={() => {
+                      modifyStock(idfactura, totalPrice)
+                  }}>
                   Hacer pedido!
                 </Button>
 
@@ -223,7 +251,19 @@ export default function BasketCart(props) {
 
       </div>
 
+      <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title">
+                <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h4" sx={{alignSelf:"center"}}>
+                    Hemos registrado tu factura
+                </Typography>
+                </Box>
+            </Modal>
 
+
+      
     </div>
 
   )

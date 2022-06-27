@@ -32,7 +32,7 @@ const Pedidos = ()  => {
     const [userActID, setUserActID] = useState(0);
     const [isLoading, setLoading] = useState(true)
     const [isEmpty, setisEmpty] = useState(true)
-    const [open, setOpen] = useState(false);
+    
     const { user} = useAuth0();
     const [datos, setDatos] = useState({
           idproducto: prodId,
