@@ -44,7 +44,7 @@ const RegisteringSite = () => {
         let data = await getUserID();
         setUserId(data);
         setDatos({...datos,
-            idusuario: userId})
+            idusuario: data})
         
     }
 
@@ -55,7 +55,7 @@ const RegisteringSite = () => {
 
     useEffect(() => {
         idUser();
-    }, []);
+    }, [userId]);
 
     const handleInputChange= (event) => {
         setDatos({
