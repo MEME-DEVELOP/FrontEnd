@@ -69,11 +69,12 @@ const VerFacturas =()=>{
             if (result === undefined){
                 setisEmptyFact(false)
             }else{
+                result.forEach(funcionNombres)
                 setisEmptyFact(true)
             }
             
             setRegistros(result)
-            result.forEach(funcionNombres)
+            
             
         })
       
@@ -213,6 +214,52 @@ const VerFacturas =()=>{
                 <Typography id="modal-modal-description" variant="h5" sx={{ mt: 2 }}>
                     Fecha : {actualFactura.fecha}
                 </Typography>
+                <div class = "row">
+                        <div class = "col">
+                            
+                            <div class = "row">
+                            <Typography variant="h7" sx={{ mt: 2 }}>
+                                Precio sin IVA: 
+                            </Typography>
+                            </div>
+                            <div clas = "row">
+                            {2}
+                            </div>
+                        </div>
+                        <div class = "col">
+                        <div class = "row">
+                            <Typography variant="h7" sx={{ mt: 2 }}>
+                                Precio no IVA y No Envio: 
+                            </Typography>
+                            </div>
+                            <div clas = "row">
+                            {2}
+                            </div>
+                        
+                        </div>
+                        <div class = "col">
+                        <div class = "row">
+                            <Typography variant="h7" sx={{ mt: 2 }}>
+                                Precio IVA y envio: 
+                            </Typography>
+                            </div>
+                            <div clas = "row">
+                            {2}
+                            </div>
+                        
+                        </div>
+                        <div class = "col">
+                            <div class = "row">
+                            <Typography variant="h7" sx={{ mt: 2 }}>
+                                Precio Completo: 
+                            </Typography>
+                            </div>
+                            <div clas = "row">
+                            {2}
+                            </div>
+                        
+                        </div>
+                    </div>
                 <Stack spacing={2}>
                     <div className="scrollProdu">
                     {
@@ -238,6 +285,7 @@ const VerFacturas =()=>{
                         )
                     }
                     </div>
+                    
                     <PDFDownloadLink document={<MyDocument datos= {JSON.stringify({fecha: actualFactura.fecha,reg: registros, nombres: nombRegProd})} />} fileName={"factura"} style = {{width:"50%", alignSelf:"center",textDecoration: 'none', color: '#ff1428'}}>
                         <Button variant="outlined" color="error" >
                             <PictureAsPdfIcon/>{" - "}Imprimir
