@@ -238,7 +238,7 @@ const VerFacturas =()=>{
                         )
                     }
                     </div>
-                    <PDFDownloadLink document={<MyDocument datos= {JSON.stringify({fecha: actualFactura.fecha,reg: registros})} />} fileName={"factura"} style = {{width:"50%", alignSelf:"center",textDecoration: 'none', color: '#ff1428'}}>
+                    <PDFDownloadLink document={<MyDocument datos= {JSON.stringify({fecha: actualFactura.fecha,reg: registros, nombres: nombRegProd})} />} fileName={"factura"} style = {{width:"50%", alignSelf:"center",textDecoration: 'none', color: '#ff1428'}}>
                         <Button variant="outlined" color="error" >
                             <PictureAsPdfIcon/>{" - "}Imprimir
                         </Button>
