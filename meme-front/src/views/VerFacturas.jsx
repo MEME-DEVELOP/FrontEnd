@@ -55,6 +55,7 @@ const VerFacturas =()=>{
         idFactura : 0,
         fecha: ""
     })
+    const [pLimpio, setpLimpio] = useState(0)
 
     const [registros, setRegistros] = useState([])
 
@@ -82,11 +83,13 @@ const VerFacturas =()=>{
     }
     
     const funcionNombres = (value, indice, arr) =>{
+       
 
         APIgetEspecific(value.productod_idproducto).then(result =>{
                 let x  = nombRegProd
                 x.push(result.nombre)
                 setNombRegProd(x)
+                
                 if (indice+1 === arr.length){
                     setOpen(true);
                 }
@@ -94,7 +97,10 @@ const VerFacturas =()=>{
         
     }
     
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setpLimpio(0)
+        setOpen(false)
+    };
     
     let navigate = useNavigate();
 
@@ -104,7 +110,7 @@ const VerFacturas =()=>{
     useEffect(() => { //
         getFacturas();
        
-    }, [isLoading]);
+    }, [isLoading, pLimpio]);
 
     
 
@@ -214,57 +220,12 @@ const VerFacturas =()=>{
                 <Typography id="modal-modal-description" variant="h5" sx={{ mt: 2 }}>
                     Fecha : {actualFactura.fecha}
                 </Typography>
-                <div class = "row">
-                        <div class = "col">
-                            
-                            <div class = "row">
-                            <Typography variant="h7" sx={{ mt: 2 }}>
-                                Precio sin IVA: 
-                            </Typography>
-                            </div>
-                            <div clas = "row">
-                            {2}
-                            </div>
-                        </div>
-                        <div class = "col">
-                        <div class = "row">
-                            <Typography variant="h7" sx={{ mt: 2 }}>
-                                Precio no IVA y No Envio: 
-                            </Typography>
-                            </div>
-                            <div clas = "row">
-                            {2}
-                            </div>
-                        
-                        </div>
-                        <div class = "col">
-                        <div class = "row">
-                            <Typography variant="h7" sx={{ mt: 2 }}>
-                                Precio IVA y envio: 
-                            </Typography>
-                            </div>
-                            <div clas = "row">
-                            {2}
-                            </div>
-                        
-                        </div>
-                        <div class = "col">
-                            <div class = "row">
-                            <Typography variant="h7" sx={{ mt: 2 }}>
-                                Precio Completo: 
-                            </Typography>
-                            </div>
-                            <div clas = "row">
-                            {2}
-                            </div>
-                        
-                        </div>
-                    </div>
+                
                 <Stack spacing={2}>
                     <div className="scrollProdu">
                     {
                     isEmptyFact && registros.map((it, indice) => {
-
+                        
                         return (
                             
                             <div key= {it.idregister} class= "row  mx-2 mb-4 shadow rounded-3 p-3 w-100">
