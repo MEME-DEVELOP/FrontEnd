@@ -45,7 +45,10 @@ export const APIgetIdByEmail = async(email) =>{
 
 export const getUserID = async() => {
     let data = await APIgetUsuarios();
-    return data[data.length -1].idusuario + 1;
+    const fil = data.sort((a,b) => a.idusuario-b.idusuario)
+    
+    return fil[fil.length -1].idusuario + 1;
+
 
 }
 
