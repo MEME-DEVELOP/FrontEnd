@@ -13,8 +13,9 @@ export const APIgetAllRegistro= async () => {
 export const getregistroID = async() => {
     let data = await APIgetAllRegistro();
    
-    return data.length + 1;
-
+    const fil = data.sort((a,b) => a.idregister -b.idregister)
+    
+    return fil[fil.length -1].idregister + 1;
 }
 
 

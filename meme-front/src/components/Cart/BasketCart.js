@@ -7,7 +7,6 @@ import { postFactura } from '../../API/FacturaAPI'
 import { postRegistro } from '../../API/RegistroAPI';
 import { getFacturaID } from '../../API/FacturaAPI';
 import { getregistroID } from '../../API/RegistroAPI';
-import { idFacturaa } from '../../API/FacturaAPI';
 
 let date = new Date()
 let day = date.getDate()
@@ -67,8 +66,20 @@ export default function BasketCart(props) {
   const shippingPrice = itemsPrice * 0.5;
   const totalPrice = itemsPrice + taxPrice + shippingPrice;
 
-  var idregister;
+  
 
+  const hacerRegistro = async(canti, costotal, factura, produID) =>{
+      var id = await getregistroID()
+      console.log(id)
+      await postRegistro({
+        "idregister": id,
+        "cantidad": canti,
+        "constot": costotal,
+        "facturad_idfactura": factura,
+        "productod_idproducto": produID 
+
+      })
+  }
 
   async function modifyStock(idfacturaFinal, precioFinal) {
 
@@ -82,21 +93,15 @@ export default function BasketCart(props) {
         "idcliente": "13513",
         "idusuario": iduser
       }
-
     )
 
-
-
+    
 
     const newCartItems = cartItems.map((product) => {
 
       if ((product.stock - product.qty) < 0) { alert("No hay suficiente cantidad de {producto.nombre}") }
       else {
-
-
-
-
-
+    
         APIPutProduct(product.idproducto, {
           "idproducto": product.idproducto,
           "nombre": product.nombre,
@@ -108,23 +113,17 @@ export default function BasketCart(props) {
         })
 
 
-        idregister = Math.floor(Math.random() * product.idusuario * 100)
+        
 
 
         try {
 
-
+          
           let x = product.preciounidad.replace('$', '').replace(',', '')
           x = x.slice(0, -3)
           constot = product.qty * x
-          postRegistro({
-            "idregister": idregister,
-            "cantidad": product.qty,
-            "constot": constot,
-            "facturad_idfactura": idfact1,
-            "productod_idproducto": product.idproducto
 
-          })
+          hacerRegistro(product.qty,constot, idfact1, product.idproducto)
 
           handleOpen()
         }
